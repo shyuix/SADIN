@@ -1,0 +1,224 @@
+{
+  "set": "arabic-dev",
+  "engineVersion": "0.3.1",
+  "runAt": "2026-09-24T19:58:36.344Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 34,
+    "sensitiveItems": 47,
+    "cleanMessages": 38,
+    "arabicSensitive": 34,
+    "arabicClean": 38
+  },
+  "itemRecall": 0.48936170212765956,
+  "perCategory": {
+    "NETWORK": {
+      "total": 23,
+      "hit": 10,
+      "recall": 0.43478260869565216
+    },
+    "ACCOUNT": {
+      "total": 7,
+      "hit": 4,
+      "recall": 0.5714285714285714
+    },
+    "CREDENTIAL": {
+      "total": 10,
+      "hit": 3,
+      "recall": 0.3
+    },
+    "SECURITY_FINDING": {
+      "total": 2,
+      "hit": 1,
+      "recall": 0.5
+    },
+    "CLASSIFIED": {
+      "total": 5,
+      "hit": 5,
+      "recall": 1
+    }
+  },
+  "messageDetection": 0.5294117647058824,
+  "classifiedBlocked": {
+    "blocked": 5,
+    "total": 5
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 23,
+    "checked": 40
+  },
+  "redactedTextRescansClean": {
+    "ok": 12,
+    "total": 12,
+    "failed": []
+  },
+  "falsePositiveMessages": {
+    "count": 0,
+    "total": 38,
+    "rate": 0
+  },
+  "latencyMs": {
+    "median": 0.010653000000004909,
+    "p95": 0.042215999999996257,
+    "max": 0.05279499999999615
+  },
+  "latency1MB": {
+    "medianMs": 76.98545099999998,
+    "bytes": 1000028
+  },
+  "perLanguage": {
+    "ar": {
+      "items": 47,
+      "hit": 23,
+      "clean": 38,
+      "fp": 0
+    }
+  },
+  "misses": [
+    {
+      "id": "AD1",
+      "cat": "NETWORK",
+      "value": "١٠.١٥.٢.٢٠",
+      "text": "السلام عليكم، السيرفر ١٠.١٥.٢.٢٠ ما يرد على البنق من الصباح، وش ممكن السبب؟"
+    },
+    {
+      "id": "AD2",
+      "cat": "NETWORK",
+      "value": "٨٠٨٠",
+      "text": "ركبت الخدمة على المنفذ ٨٠٨٠ بس المتصفح يقول الصفحة غير متاحة"
+    },
+    {
+      "id": "AD3",
+      "cat": "ACCOUNT",
+      "value": "admin.ops",
+      "text": "اسم المستخدم admin.ops وكلمة المرور Riyadh@2026 ليش يرفض الدخول؟"
+    },
+    {
+      "id": "AD3",
+      "cat": "CREDENTIAL",
+      "value": "Riyadh@2026",
+      "text": "اسم المستخدم admin.ops وكلمة المرور Riyadh@2026 ليش يرفض الدخول؟"
+    },
+    {
+      "id": "AD4",
+      "cat": "CREDENTIAL",
+      "value": "Svc#Pass991",
+      "text": "الباسوورد حق حساب الخدمة هو Svc#Pass991 أبي أعرف ليش ينتهي كل شهر"
+    },
+    {
+      "id": "AD7",
+      "cat": "NETWORK",
+      "value": "١٩٢.١٦٨.١.١",
+      "text": "الراوتر الرئيسي عنوانه ١٩٢.١٦٨.١.١ والجدار الناري ١٩٢.١٦٨.١.٢٥٤"
+    },
+    {
+      "id": "AD7",
+      "cat": "NETWORK",
+      "value": "١٩٢.١٦٨.١.٢٥٤",
+      "text": "الراوتر الرئيسي عنوانه ١٩٢.١٦٨.١.١ والجدار الناري ١٩٢.١٦٨.١.٢٥٤"
+    },
+    {
+      "id": "AD8",
+      "cat": "SECURITY_FINDING",
+      "value": "CVE-2024-3400",
+      "text": "نتيجة الفحص: ثغرة حرجة CVE-2024-3400 في الجدار الناري ولم تُرقّع بعد، اكتب لي ملخص للإدارة"
+    },
+    {
+      "id": "AD10",
+      "cat": "CREDENTIAL",
+      "value": "Sw!tch2026",
+      "text": "الرقم السري للسويتش: Sw!tch2026"
+    },
+    {
+      "id": "AD14",
+      "cat": "NETWORK",
+      "value": "٤٤٣",
+      "text": "المنفذ رقم ٤٤٣ مسكّر على الفايروول، كيف أفتحه؟"
+    },
+    {
+      "id": "AD18",
+      "cat": "CREDENTIAL",
+      "value": "Int3rnal#Wifi",
+      "text": "كلمة المرور الجديدة للواي فاي الداخلي Int3rnal#Wifi"
+    },
+    {
+      "id": "AD20",
+      "cat": "CREDENTIAL",
+      "value": "admin123!@#",
+      "text": "باسورد الراوتر admin123!@# وش أسوي عشان أغيره؟"
+    },
+    {
+      "id": "AD21",
+      "cat": "ACCOUNT",
+      "value": "sa_backup",
+      "text": "اليوزر: sa_backup والباس: B@ckup2026"
+    },
+    {
+      "id": "AD21",
+      "cat": "CREDENTIAL",
+      "value": "B@ckup2026",
+      "text": "اليوزر: sa_backup والباس: B@ckup2026"
+    },
+    {
+      "id": "AD23",
+      "cat": "NETWORK",
+      "value": "١٧٢.٢٠.١٠.٥",
+      "text": "السيرفر على ١٧٢.٢٠.١٠.٥:٨٤٤٣ يعطيني timeout"
+    },
+    {
+      "id": "AD23",
+      "cat": "NETWORK",
+      "value": "٨٤٤٣",
+      "text": "السيرفر على ١٧٢.٢٠.١٠.٥:٨٤٤٣ يعطيني timeout"
+    },
+    {
+      "id": "AD27",
+      "cat": "NETWORK",
+      "value": "١٠.٠.٠.٠",
+      "text": "الشبكة الداخلية عندنا ١٠.٠.٠.٠/٨ وأبي أقسمها لشبكات فرعية"
+    },
+    {
+      "id": "AD28",
+      "cat": "NETWORK",
+      "value": "fin-pc-22",
+      "text": "اسم الجهاز: fin-pc-22 ، عنوانه 10.3.4.99"
+    },
+    {
+      "id": "AD29",
+      "cat": "CREDENTIAL",
+      "value": "Mm@55443322",
+      "text": "كلمة السر حقت الإيميل: Mm@55443322"
+    },
+    {
+      "id": "AD30",
+      "cat": "NETWORK",
+      "value": "١٠.٧٧.١.٣",
+      "text": "هذا لوق الـ SIEM: فشل دخول ١٥ مرة من ١٠.٧٧.١.٣ على الحساب svc_backup"
+    },
+    {
+      "id": "AD30",
+      "cat": "ACCOUNT",
+      "value": "svc_backup",
+      "text": "هذا لوق الـ SIEM: فشل دخول ١٥ مرة من ١٠.٧٧.١.٣ على الحساب svc_backup"
+    },
+    {
+      "id": "AD34",
+      "cat": "NETWORK",
+      "value": "٢١",
+      "text": "كم منفذ مفتوح عندنا؟ المنافذ ٢١ و٢٢ و٣٣٨٩"
+    },
+    {
+      "id": "AD34",
+      "cat": "NETWORK",
+      "value": "٢٢",
+      "text": "كم منفذ مفتوح عندنا؟ المنافذ ٢١ و٢٢ و٣٣٨٩"
+    },
+    {
+      "id": "AD34",
+      "cat": "NETWORK",
+      "value": "٣٣٨٩",
+      "text": "كم منفذ مفتوح عندنا؟ المنافذ ٢١ و٢٢ و٣٣٨٩"
+    }
+  ],
+  "falsePositives": []
+}

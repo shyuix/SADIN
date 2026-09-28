@@ -1,0 +1,178 @@
+{
+  "images": 20,
+  "seededValues": 72,
+  "valuesMasked": 71,
+  "maskRecall": 0.9861111111111112,
+  "readableAfterMasking": 0,
+  "classifiedImages": 8,
+  "classifiedBlocked": 8,
+  "nonClassifiedWronglyBlocked": 0,
+  "latencyMs": {
+    "median": 1045,
+    "max": 1612
+  },
+  "results": [
+    {
+      "file": "case01-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case02-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case03-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case04-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case05-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case06-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case07-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case08-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case09-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case10-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case11-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case12-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case13-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case14-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case15-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case16-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 8,
+      "missed": [
+        "dc01 (covered 0%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case17-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case18-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case19-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case20-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "set": "holdout",
+  "engineVersion": "0.3.0",
+  "runAt": "2026-09-22T16:03:18.947Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 30,
+    "sensitiveItems": 51,
+    "cleanMessages": 50,
+    "arabicSensitive": 10,
+    "arabicClean": 25
+  },
+  "itemRecall": 0.8627450980392157,
+  "perCategory": {
+    "NETWORK": {
+      "total": 29,
+      "hit": 27,
+      "recall": 0.9310344827586207
+    },
+    "CREDENTIAL": {
+      "total": 12,
+      "hit": 9,
+      "recall": 0.75
+    },
+    "ACCOUNT": {
+      "total": 4,
+      "hit": 3,
+      "recall": 0.75
+    },
+    "CLASSIFIED": {
+      "total": 6,
+      "hit": 5,
+      "recall": 0.8333333333333334
+    }
+  },
+  "messageDetection": 0.9333333333333333,
+  "classifiedBlocked": {
+    "blocked": 5,
+    "total": 6
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 6,
+    "checked": 45
+  },
+  "falsePositiveMessages": {
+    "count": 0,
+    "total": 50,
+    "rate": 0
+  },
+  "latencyMs": {
+    "median": 0.011762999999994861,
+    "p95": 0.06172099999999858,
+    "max": 0.573241000000003
+  },
+  "latency1MB": {
+    "medianMs": 198.89671499999997,
+    "bytes": 1000007
+  },
+  "misses": [
+    {
+      "id": "H4",
+      "cat": "NETWORK",
+      "value": "2222",
+      "text": "ssh -i ~/.ssh/id_rsa deploy@192.168.200.14 -p 2222 fails with \"connection refused\""
+    },
+    {
+      "id": "H6",
+      "cat": "CREDENTIAL",
+      "value": "Kh4lid!Root2026",
+      "text": "mysql -h 10.9.3.3 -u root -pKh4lid!Root2026 inventory"
+    },
+    {
+      "id": "H10",
+      "cat": "CREDENTIAL",
+      "value": "Summer#2026ops",
+      "text": "The shared mailbox password was changed to Summer#2026ops yesterday, but Outlook still pro"
+    },
+    {
+      "id": "H14",
+      "cat": "CREDENTIAL",
+      "value": "Gr@fana!77",
+      "text": "Grafana datasource: url http://prometheus.monitoring.lan:9090 basic auth grafana / Gr@fana"
+    },
+    {
+      "id": "H16",
+      "cat": "NETWORK",
+      "value": "5985",
+      "text": "Firewall export row: 1042, allow, 172.29.4.0/24, 172.29.8.12, TCP/5985, WinRM for admins"
+    },
+    {
+      "id": "H22",
+      "cat": "ACCOUNT",
+      "value": "t.alshammari",
+      "text": "اسم المستخدم: t.alshammari\nكلمة السر: Najran#8821\nلا أستطيع الدخول إلى نظام الحضور."
+    },
+    {
+      "id": "H25",
+      "cat": "CLASSIFIED",
+      "value": "مستند مصنف",
+      "text": "مستند مصنف يحتوي على عقود التوريد، أريد ترجمته للإنجليزية."
+    }
+  ],
+  "falsePositives": []
+}

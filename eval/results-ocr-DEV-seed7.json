@@ -1,0 +1,205 @@
+{
+  "images": 20,
+  "seededValues": 68,
+  "valuesMasked": 58,
+  "maskRecall": 0.8529411764705882,
+  "readableAfterMasking": 2,
+  "classifiedImages": 8,
+  "classifiedBlocked": 4,
+  "nonClassifiedWronglyBlocked": 0,
+  "latencyMs": {
+    "median": 1410,
+    "max": 3251
+  },
+  "results": [
+    {
+      "file": "case01-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case02-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case03-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case04-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:مقيد"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case05-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case06-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 8,
+      "missed": [
+        "app-prod-05",
+        "m.alqahtani@corp.example.sa (OCR misread)"
+      ],
+      "leakedAfterMask": [
+        "app-prod-05"
+      ]
+    },
+    {
+      "file": "case07-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 5,
+      "missed": [
+        "Najd73@Lm1 (OCR misread)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case08-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "m.alqahtani@corp.example.sa (OCR misread)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case09-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:مقيد"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case10-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case11-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 8,
+      "missed": [
+        "app-prod-08"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case12-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 5,
+      "missed": [
+        "192.168.136.52",
+        "Najd64@Zt1 (OCR misread)"
+      ],
+      "leakedAfterMask": [
+        "192.168.136.52"
+      ]
+    },
+    {
+      "file": "case13-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "m.alqahtani@corp.example.sa (OCR misread)",
+        "m.alqahtani@corp.example.sa (OCR misread)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case14-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:مقيد"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case15-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case16-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [
+        "m.alqahtani@corp.example.sa (OCR misread)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case17-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case18-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case19-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:مقيد"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case20-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    }
+  ]
+}

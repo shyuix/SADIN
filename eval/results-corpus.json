@@ -1,0 +1,80 @@
+{
+  "set": "corpus",
+  "engineVersion": "0.4.0",
+  "runAt": "2026-09-24T20:01:13.202Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 111,
+    "sensitiveItems": 155,
+    "cleanMessages": 100,
+    "arabicSensitive": 36,
+    "arabicClean": 35
+  },
+  "itemRecall": 1,
+  "perCategory": {
+    "CREDENTIAL": {
+      "total": 52,
+      "hit": 52,
+      "recall": 1
+    },
+    "NETWORK": {
+      "total": 73,
+      "hit": 73,
+      "recall": 1
+    },
+    "CLASSIFIED": {
+      "total": 19,
+      "hit": 19,
+      "recall": 1
+    },
+    "ACCOUNT": {
+      "total": 11,
+      "hit": 11,
+      "recall": 1
+    }
+  },
+  "messageDetection": 1,
+  "classifiedBlocked": {
+    "blocked": 19,
+    "total": 19
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 0,
+    "checked": 136
+  },
+  "redactedTextRescansClean": {
+    "ok": 92,
+    "total": 92,
+    "failed": []
+  },
+  "falsePositiveMessages": {
+    "count": 0,
+    "total": 100,
+    "rate": 0
+  },
+  "latencyMs": {
+    "median": 0.021920000000001494,
+    "p95": 0.11452799999999996,
+    "max": 4.188095000000004
+  },
+  "latency1MB": {
+    "medianMs": 220.73182699999995,
+    "bytes": 1000099
+  },
+  "perLanguage": {
+    "en": {
+      "items": 109,
+      "hit": 109,
+      "clean": 65,
+      "fp": 0
+    },
+    "ar": {
+      "items": 46,
+      "hit": 46,
+      "clean": 35,
+      "fp": 0
+    }
+  },
+  "misses": [],
+  "falsePositives": []
+}

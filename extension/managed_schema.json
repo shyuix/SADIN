@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "serverUrl": { "type": "string", "description": "URL of the on-prem SADIN inspection server" },
+    "serverToken": { "type": "string", "description": "Shared secret sent to the inspection server in the X-SADIN-Token header (must match SADIN_TOKEN on the server)" },
+    "userEmail": { "type": "string", "description": "Work identity to record in the decision log" },
+    "policy": {
+      "type": "object",
+      "description": "Overrides for the SADIN policy",
+      "properties": {
+        "orgDomains": { "type": "array", "items": { "type": "string" } },
+        "orgPublicCidrs": { "type": "array", "items": { "type": "string" } },
+        "employeeIdPattern": { "type": "string" },
+        "failClosed": { "type": "boolean" },
+        "uninspectableFiles": { "type": "string", "enum": ["block", "warn", "allow"] },
+        "actions": {
+          "type": "object",
+          "properties": {
+            "CLASSIFIED": { "type": "string", "enum": ["block", "redact", "warn", "allow"] },
+            "CREDENTIAL": { "type": "string", "enum": ["block", "redact", "warn", "allow"] },
+            "NETWORK": { "type": "string", "enum": ["block", "redact", "warn", "allow"] },
+            "ACCOUNT": { "type": "string", "enum": ["block", "redact", "warn", "allow"] },
+            "SECURITY_FINDING": { "type": "string", "enum": ["block", "redact", "warn", "allow"] }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "orgDomains": ["corp.example.sa", "example.sa"],
+  "orgPublicCidrs": ["203.0.113.0/24"],
+  "employeeIdPattern": "\\bEMP-?\\d{5,6}\\b",
+  "failClosed": true,
+  "uninspectableFiles": "block",
+  "actions": { "CLASSIFIED": "block", "CREDENTIAL": "redact", "NETWORK": "redact", "ACCOUNT": "redact", "SECURITY_FINDING": "warn" }
+}

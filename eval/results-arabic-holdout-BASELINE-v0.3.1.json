@@ -1,0 +1,197 @@
+{
+  "set": "arabic-holdout",
+  "engineVersion": "0.3.1",
+  "runAt": "2026-09-24T19:58:36.823Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 30,
+    "sensitiveItems": 36,
+    "cleanMessages": 40,
+    "arabicSensitive": 30,
+    "arabicClean": 40
+  },
+  "itemRecall": 0.5,
+  "perCategory": {
+    "NETWORK": {
+      "total": 15,
+      "hit": 6,
+      "recall": 0.4
+    },
+    "CREDENTIAL": {
+      "total": 8,
+      "hit": 3,
+      "recall": 0.375
+    },
+    "ACCOUNT": {
+      "total": 6,
+      "hit": 4,
+      "recall": 0.6666666666666666
+    },
+    "CLASSIFIED": {
+      "total": 4,
+      "hit": 4,
+      "recall": 1
+    },
+    "SECURITY_FINDING": {
+      "total": 3,
+      "hit": 1,
+      "recall": 0.3333333333333333
+    }
+  },
+  "messageDetection": 0.6,
+  "classifiedBlocked": {
+    "blocked": 4,
+    "total": 4
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 16,
+    "checked": 29
+  },
+  "redactedTextRescansClean": {
+    "ok": 13,
+    "total": 13,
+    "failed": []
+  },
+  "falsePositiveMessages": {
+    "count": 1,
+    "total": 40,
+    "rate": 0.025
+  },
+  "latencyMs": {
+    "median": 0.010449999999998738,
+    "p95": 0.03682500000000033,
+    "max": 0.24218700000000126
+  },
+  "latency1MB": {
+    "medianMs": 72.72039899999999,
+    "bytes": 1000026
+  },
+  "perLanguage": {
+    "ar": {
+      "items": 36,
+      "hit": 18,
+      "clean": 40,
+      "fp": 1
+    }
+  },
+  "misses": [
+    {
+      "id": "AH1",
+      "cat": "NETWORK",
+      "value": "١٠.٢.٣٣.٤٠",
+      "text": "صباح الخير، الطابعة على العنوان ١٠.٢.٣٣.٤٠ ما تطبع من أمس"
+    },
+    {
+      "id": "AH2",
+      "cat": "NETWORK",
+      "value": "٩٤٤٣",
+      "text": "فتحنا بورت ٩٤٤٣ للخدمة الجديدة بس ما تشتغل"
+    },
+    {
+      "id": "AH3",
+      "cat": "CREDENTIAL",
+      "value": "Cam#2026admin",
+      "text": "باسورد الأدمن حق لوحة الكاميرات Cam#2026admin ضاع مني نصه، ساعدني أسترجعه"
+    },
+    {
+      "id": "AH4",
+      "cat": "ACCOUNT",
+      "value": "r.alzahrani",
+      "text": "اليوزر حقي في النظام هو r.alzahrani وما يقبل الدخول"
+    },
+    {
+      "id": "AH5",
+      "cat": "NETWORK",
+      "value": "5432",
+      "text": "عنوان السيرفر 172.18.40.12 والبورت 5432 وقاعدة البيانات ما تتصل"
+    },
+    {
+      "id": "AH6",
+      "cat": "CREDENTIAL",
+      "value": "P@ssw0rd!Svc",
+      "text": "كلمة السر لحساب الخدمة: P@ssw0rd!Svc"
+    },
+    {
+      "id": "AH10",
+      "cat": "SECURITY_FINDING",
+      "value": "نتائج اختبار الاختراق",
+      "text": "نتائج اختبار الاختراق للربع الثالث: ٤ ثغرات عالية الخطورة، رتبها حسب الأولوية"
+    },
+    {
+      "id": "AH11",
+      "cat": "SECURITY_FINDING",
+      "value": "CVE-2023-4966",
+      "text": "CVE-2023-4966 موجودة عندنا في الـ Citrix وما رقعناها، وش الخطوات؟"
+    },
+    {
+      "id": "AH15",
+      "cat": "NETWORK",
+      "value": "١٩٢.١٦٨.٥٠.١",
+      "text": "الجدار الناري:\nالعنوان الداخلي ١٩٢.١٦٨.٥٠.١\nالعنوان الخارجي 203.0.113.10\nوش الإعداد الصحيح"
+    },
+    {
+      "id": "AH18",
+      "cat": "NETWORK",
+      "value": "٢٢",
+      "text": "المنافذ المفتوحة على السيرفر: ٢٢، ٨٠، ٤٤٣"
+    },
+    {
+      "id": "AH18",
+      "cat": "NETWORK",
+      "value": "٨٠",
+      "text": "المنافذ المفتوحة على السيرفر: ٢٢، ٨٠، ٤٤٣"
+    },
+    {
+      "id": "AH18",
+      "cat": "NETWORK",
+      "value": "٤٤٣",
+      "text": "المنافذ المفتوحة على السيرفر: ٢٢، ٨٠، ٤٤٣"
+    },
+    {
+      "id": "AH20",
+      "cat": "CREDENTIAL",
+      "value": "7719-KX-22",
+      "text": "الرمز السري للخزنة الإلكترونية 7719-KX-22 وما يفتح"
+    },
+    {
+      "id": "AH22",
+      "cat": "NETWORK",
+      "value": "١٠.١٠.٢٠.٣٠",
+      "text": "اسم الخادم web-prod-04 والعنوان ١٠.١٠.٢٠.٣٠"
+    },
+    {
+      "id": "AH23",
+      "cat": "ACCOUNT",
+      "value": "admin_noc",
+      "text": "بيانات الدخول للوحة التحكم: المستخدم admin_noc الباسورد Noc!7788"
+    },
+    {
+      "id": "AH23",
+      "cat": "CREDENTIAL",
+      "value": "Noc!7788",
+      "text": "بيانات الدخول للوحة التحكم: المستخدم admin_noc الباسورد Noc!7788"
+    },
+    {
+      "id": "AH26",
+      "cat": "NETWORK",
+      "value": "١٧٢.١٦.٨.٠",
+      "text": "الشبكة الفرعية للإدارة المالية ١٧٢.١٦.٨.٠/٢٤، كم جهاز تستوعب؟"
+    },
+    {
+      "id": "AH29",
+      "cat": "CREDENTIAL",
+      "value": "Adm1n-W1F1-Net",
+      "text": "كلمة مرور الواي فاي الإداري هي Adm1n-W1F1-Net"
+    }
+  ],
+  "falsePositives": [
+    {
+      "id": "AHC29",
+      "action": "block",
+      "what": [
+        "label_ar_field:مستوى التصنيف مقيد"
+      ],
+      "text": "وش يعني مستوى التصنيف مقيد في سياسات البيانات؟"
+    }
+  ]
+}

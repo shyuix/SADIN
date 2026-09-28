@@ -1,0 +1,79 @@
+{
+  "set": "arabic-dev",
+  "engineVersion": "0.4.0",
+  "runAt": "2026-09-24T20:01:15.927Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 34,
+    "sensitiveItems": 47,
+    "cleanMessages": 38,
+    "arabicSensitive": 34,
+    "arabicClean": 38
+  },
+  "itemRecall": 1,
+  "perCategory": {
+    "NETWORK": {
+      "total": 23,
+      "hit": 23,
+      "recall": 1
+    },
+    "ACCOUNT": {
+      "total": 7,
+      "hit": 7,
+      "recall": 1
+    },
+    "CREDENTIAL": {
+      "total": 10,
+      "hit": 10,
+      "recall": 1
+    },
+    "SECURITY_FINDING": {
+      "total": 2,
+      "hit": 2,
+      "recall": 1
+    },
+    "CLASSIFIED": {
+      "total": 5,
+      "hit": 5,
+      "recall": 1
+    }
+  },
+  "messageDetection": 1,
+  "classifiedBlocked": {
+    "blocked": 5,
+    "total": 5
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 0,
+    "checked": 40
+  },
+  "redactedTextRescansClean": {
+    "ok": 27,
+    "total": 27,
+    "failed": []
+  },
+  "falsePositiveMessages": {
+    "count": 0,
+    "total": 38,
+    "rate": 0
+  },
+  "latencyMs": {
+    "median": 0.019507999999994752,
+    "p95": 0.07403099999999796,
+    "max": 4.119900999999999
+  },
+  "latency1MB": {
+    "medianMs": 271.534726,
+    "bytes": 1000028
+  },
+  "perLanguage": {
+    "ar": {
+      "items": 47,
+      "hit": 47,
+      "clean": 38,
+      "fp": 0
+    }
+  },
+  "misses": [],
+  "falsePositives": []
+}

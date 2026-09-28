@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img class="logo" src="../icons/sadin-mark-light.svg" height="30" alt="SADIN">
+    <div>
+      <div class="name">SADIN</div>
+      <div class="sub">Protective middleware for AI tools</div>
+    </div>
+  </header>
+  <section class="status">
+    <div><span class="dot" id="dot"></span><span id="srv">Checking inspection server...</span></div>
+    <div class="muted" id="ver"></div>
+  </section>
+  <section class="stats">
+    <div><b id="nRedact">0</b><span>redacted</span></div>
+    <div><b id="nBlock">0</b><span>blocked</span></div>
+    <div><b id="nWarn">0</b><span>flagged</span></div>
+  </section>
+  <h2>Recent decisions <span class="muted">(no content is stored)</span></h2>
+  <ul id="log"></ul>
+  <footer>
+    <button id="cef">Export log (CEF)</button>
+    <button id="clear" class="ghost">Clear local log</button>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>

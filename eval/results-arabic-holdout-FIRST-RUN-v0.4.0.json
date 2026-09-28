@@ -1,0 +1,88 @@
+{
+  "set": "arabic-holdout",
+  "engineVersion": "0.4.0",
+  "runAt": "2026-09-24T19:59:54.021Z",
+  "node": "v22.22.2",
+  "corpus": {
+    "sensitiveMessages": 30,
+    "sensitiveItems": 36,
+    "cleanMessages": 40,
+    "arabicSensitive": 30,
+    "arabicClean": 40
+  },
+  "itemRecall": 1,
+  "perCategory": {
+    "NETWORK": {
+      "total": 15,
+      "hit": 15,
+      "recall": 1
+    },
+    "CREDENTIAL": {
+      "total": 8,
+      "hit": 8,
+      "recall": 1
+    },
+    "ACCOUNT": {
+      "total": 6,
+      "hit": 6,
+      "recall": 1
+    },
+    "CLASSIFIED": {
+      "total": 4,
+      "hit": 4,
+      "recall": 1
+    },
+    "SECURITY_FINDING": {
+      "total": 3,
+      "hit": 3,
+      "recall": 1
+    }
+  },
+  "messageDetection": 1,
+  "classifiedBlocked": {
+    "blocked": 4,
+    "total": 4
+  },
+  "residualLeakAfterRedaction": {
+    "leaked": 0,
+    "checked": 29
+  },
+  "redactedTextRescansClean": {
+    "ok": 23,
+    "total": 23,
+    "failed": []
+  },
+  "falsePositiveMessages": {
+    "count": 1,
+    "total": 40,
+    "rate": 0.025
+  },
+  "latencyMs": {
+    "median": 0.022783000000003995,
+    "p95": 0.08571900000000454,
+    "max": 4.095653000000006
+  },
+  "latency1MB": {
+    "medianMs": 236.12290299999995,
+    "bytes": 1000026
+  },
+  "perLanguage": {
+    "ar": {
+      "items": 36,
+      "hit": 36,
+      "clean": 40,
+      "fp": 1
+    }
+  },
+  "misses": [],
+  "falsePositives": [
+    {
+      "id": "AHC29",
+      "action": "block",
+      "what": [
+        "label_ar_field:مستوى التصنيف مقيد"
+      ],
+      "text": "وش يعني مستوى التصنيف مقيد في سياسات البيانات؟"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "SADIN - Protective Middleware for AI Tools",
+  "short_name": "SADIN",
+  "version": "0.4.0",
+  "description": "Everything an employee sends to an AI tool passes through SADIN first: secrets, internal network details and classified documents are redacted or blocked on the device.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "identity", "identity.email"],
+  "host_permissions": ["http://127.0.0.1:8787/*", "http://localhost:8787/*"],
+  "background": { "service_worker": "src/background.js" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.perplexity.ai/*",
+        "https://chat.deepseek.com/*",
+        "https://chat.mistral.ai/*",
+        "https://poe.com/*",
+        "http://localhost:8788/*",
+        "http://127.0.0.1:8788/*"
+      ],
+      "js": ["src/engine.js", "src/content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "SADIN",
+    "default_popup": "popup/popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png" }
+  },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "storage": { "managed_schema": "managed_schema.json" }
+}
