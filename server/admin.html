@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SADIN administrator</title>
+<style>
+  :root { --navy: #0B2134; --paper: #F6F2EA; --line: #d9d3c7; --muted: #5d6b78; --bad: #a32020; --warn: #8a5a00; --ok: #1f6b3a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, "Segoe UI", "IBM Plex Sans Arabic", sans-serif; color: var(--navy); background: var(--paper); }
+  header { background: var(--navy); color: var(--paper); padding: 14px 24px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  header h1 { font-size: 18px; margin: 0; letter-spacing: .02em; }
+  header span { opacity: .75; font-size: 13px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 20px 24px 48px; }
+  h2 { font-size: 15px; margin: 26px 0 8px; text-transform: uppercase; letter-spacing: .06em; }
+  .bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  input { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; min-width: 240px; }
+  button { font: inherit; padding: 6px 14px; border: 1px solid var(--navy); border-radius: 6px; background: var(--navy); color: var(--paper); cursor: pointer; }
+  .wrap { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; white-space: nowrap; }
+  td.wide { white-space: normal; min-width: 280px; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: #fbf9f4; }
+  tr:last-child td { border-bottom: 0; }
+  .tag { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid currentColor; }
+  .ok { color: var(--ok); } .silent, .modified, .uninstalled, .sev-hi { color: var(--bad); } .not-forced, .sev-mid { color: var(--warn); } .sev-lo { color: var(--ok); }
+  .empty { padding: 18px; color: var(--muted); }
+  #err { color: var(--bad); font-weight: 600; }
+</style>
+</head>
+<body>
+<header><h1>SADIN administrator</h1><span>Devices and tamper alerts. No message content is stored or shown here.</span></header>
+<main>
+  <div class="bar">
+    <label for="tok">Server token</label>
+    <input id="tok" type="password" autocomplete="off" placeholder="X-SADIN-Token (leave empty if not set)">
+    <button id="go" type="button">Load</button>
+    <span id="when"></span><span id="err"></span>
+  </div>
+  <h2>Devices</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>State</th><th>Device</th><th>User</th><th>Installed by</th><th>Files</th><th>Browser</th><th>Version</th><th>Last heartbeat</th></tr></thead>
+    <tbody id="devices"><tr><td class="empty" colspan="8">Not loaded yet.</td></tr></tbody>
+  </table></div>
+  <h2>Alerts</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Time</th><th>Alert</th><th>Device</th><th>User</th><th>What it means</th></tr></thead>
+    <tbody id="alerts"><tr><td class="empty" colspan="5">Not loaded yet.</td></tr></tbody>
+  </table></div>
+</main>
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = v => String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const when = t => t ? new Date(t).toLocaleString() : "";
+  let token = "";
+  try { token = sessionStorage.getItem("sadin-token") || ""; } catch (e) {}
+  $("tok").value = token;
+  async function get(path) {
+    const r = await fetch(path, { cache: "no-store", headers: token ? { "X-SADIN-Token": token } : {} });
+    if (!r.ok) throw new Error(r.status === 401 ? "Wrong or missing token." : "Server answered " + r.status);
+    return r.json();
+  }
+  async function load() {
+    try {
+      const [devices, alerts] = await Promise.all([get("/devices"), get("/alerts")]);
+      $("err").textContent = "";
+      $("devices").innerHTML = devices.length ? devices.map(d =>
+        `<tr><td><span class="tag ${esc(d.state)}">${esc(d.state)}</span></td><td>${esc(d.device)}</td><td>${esc(d.user)}</td>` +
+        `<td>${d.installType === "admin" ? "policy" : esc(d.installType)}</td><td>${esc(d.integrityStatus || "")}</td>` +
+        `<td>${esc(d.browser)}</td><td>${esc(d.version)}</td><td>${esc(when(d.lastSeen))}</td></tr>`).join("")
+        : '<tr><td class="empty" colspan="8">No device has reported yet.</td></tr>';
+      $("alerts").innerHTML = alerts.length ? alerts.slice(0, 200).map(a =>
+        `<tr><td>${esc(when(a.time))}</td><td><span class="tag ${a.severity >= 8 ? "sev-hi" : a.severity >= 5 ? "sev-mid" : "sev-lo"}">${esc(a.type)}</span></td>` +
+        `<td>${esc(a.device)}</td><td>${esc(a.user)}</td><td class="wide">${esc(a.text)}${a.detail ? " (" + esc(a.detail) + ")" : ""}</td></tr>`).join("")
+        : '<tr><td class="empty" colspan="5">No alerts.</td></tr>';
+      $("when").textContent = "Updated " + new Date().toLocaleTimeString();
+    } catch (e) { $("err").textContent = e.message; }
+  }
+  $("go").addEventListener("click", () => {
+    token = $("tok").value.trim();
+    try { sessionStorage.setItem("sadin-token", token); } catch (e) {}
+    load();
+  });
+  load();
+  setInterval(load, 10000);
+</script>
+</body>
+</html>

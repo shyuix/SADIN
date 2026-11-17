@@ -1,0 +1,1311 @@
+{
+ "set": "file-fixtures (structural)",
+ "engine": "0.4.1",
+ "date": "2026-11-17",
+ "files": 82,
+ "correct": 82,
+ "byExpect": {
+  "block": {
+   "total": 50,
+   "ok": 50
+  },
+  "allow": {
+   "total": 18,
+   "ok": 18
+  },
+  "uninspectable": {
+   "total": 14,
+   "ok": 14
+  }
+ },
+ "wronglyAllowed": [],
+ "knownGaps": [
+  "d54-label-list-lost-after-libreoffice-save.docx",
+  "p66-label-lost-in-libreoffice-pdf.pdf"
+ ],
+ "wronglyHeld": [],
+ "timingMs": {
+  "medianNoOcr": 1,
+  "medianWithOcr": 315,
+  "max": 2155
+ },
+ "rows": [
+  {
+   "file": "d01-body-english.docx",
+   "where": "body text",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 11
+  },
+  {
+   "file": "d02-body-arabic-rtl.docx",
+   "where": "body text, right-to-left paragraph",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 4
+  },
+  {
+   "file": "d03-body-arabic-ltr-paragraph.docx",
+   "where": "Arabic typed in a left-to-right paragraph",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d04-table-cell.docx",
+   "where": "table cell",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 3
+  },
+  {
+   "file": "d05-header.docx",
+   "where": "page header",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d06-footer.docx",
+   "where": "page footer",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d07-footnote.docx",
+   "where": "footnote",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d08-comment.docx",
+   "where": "review comment",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d09-hyperlink-target.docx",
+   "where": "hyperlink target (the visible text is harmless)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d10-tracked-deletion.docx",
+   "where": "text deleted with Track Changes",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d11-split-runs.docx",
+   "where": "value split across formatting runs",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d12-embedded-screenshot.docx",
+   "where": "picture inside the document (OCR)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 1,
+   "ms": 261
+  },
+  {
+   "file": "d13-classified-stamp-arabic.docx",
+   "where": "classification marking",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "blocked-content",
+   "label": null,
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d14-document-title.docx",
+   "where": "document properties (title)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d15-clean-english.docx",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d16-clean-arabic.docx",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d17-clean-with-picture.docx",
+   "where": "harmless picture (OCR)",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 1,
+   "ms": 192
+  },
+  {
+   "file": "d18-macros.docx",
+   "where": "macro project",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "macros",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d19-embedded-object.docx",
+   "where": "embedded spreadsheet",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "embedded-object",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d20-emf-picture.docx",
+   "where": "picture format OCR cannot read",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "unreadable-picture",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d25-unknown-part.docx",
+   "where": "a component SADIN does not know how to read",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "unknown-part",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d26-chart-title.docx",
+   "where": "chart title",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d27-text-box.docx",
+   "where": "text box",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d21-too-many-pictures.docx",
+   "where": "9 pictures, over the limit of 8",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "too-many-pictures",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d22-truncated.docx",
+   "where": "damaged file",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "damaged",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d23-spreadsheet-renamed.docx",
+   "where": "an .xlsx renamed to .docx",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "unsupported-type",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d24-legacy-doc.docx",
+   "where": "legacy or password-protected Office container",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "legacy-or-password-protected",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d28-arabic-saved-by-libreoffice.docx",
+   "where": "body text",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d29-clean-arabic-saved-by-libreoffice.docx",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d30-clean-english-saved-by-libreoffice.docx",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "p01-body-english-libreoffice.pdf",
+   "where": "body text",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 55
+  },
+  {
+   "file": "p02-body-arabic-rtl-libreoffice.pdf",
+   "where": "body text, right-to-left paragraph",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 48
+  },
+  {
+   "file": "p03-body-arabic-ltr-paragraph-libreoffice.pdf",
+   "where": "Arabic typed in a left-to-right paragraph",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 48
+  },
+  {
+   "file": "p04-table-cell-libreoffice.pdf",
+   "where": "table cell",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 50
+  },
+  {
+   "file": "p05-header-libreoffice.pdf",
+   "where": "page header",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 51
+  },
+  {
+   "file": "p06-footer-libreoffice.pdf",
+   "where": "page footer",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 53
+  },
+  {
+   "file": "p07-footnote-libreoffice.pdf",
+   "where": "footnote",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 51
+  },
+  {
+   "file": "p08-hyperlink-target-libreoffice.pdf",
+   "where": "hyperlink target (the visible text is harmless)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2
+   },
+   "ocr": 0,
+   "ms": 55
+  },
+  {
+   "file": "p09-split-runs-libreoffice.pdf",
+   "where": "value split across formatting runs",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1,
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 67
+  },
+  {
+   "file": "p10-embedded-screenshot-libreoffice.pdf",
+   "where": "picture inside the document (OCR)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 1,
+   "ms": 2019
+  },
+  {
+   "file": "p11-classified-stamp-arabic-libreoffice.pdf",
+   "where": "classification marking",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "blocked-content",
+   "label": null,
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 50
+  },
+  {
+   "file": "p12-clean-english-libreoffice.pdf",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 43
+  },
+  {
+   "file": "p13-clean-arabic-libreoffice.pdf",
+   "where": "nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 45
+  },
+  {
+   "file": "p14-clean-with-picture-libreoffice.pdf",
+   "where": "harmless picture (OCR)",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 1,
+   "ms": 2155
+  },
+  {
+   "file": "p20-english-chrome.pdf",
+   "where": "body text",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1
+   },
+   "ocr": 0,
+   "ms": 51
+  },
+  {
+   "file": "p21-arabic-chrome.pdf",
+   "where": "body text",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 49
+  },
+  {
+   "file": "p22-clean-arabic-chrome.pdf",
+   "where": "body text",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 48
+  },
+  {
+   "file": "p23-clean-english-chrome.pdf",
+   "where": "body text",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 49
+  },
+  {
+   "file": "p30-scanned-english.pdf",
+   "where": "scanned page",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 1,
+   "ms": 282
+  },
+  {
+   "file": "p31-scanned-arabic.pdf",
+   "where": "scanned page, Arabic",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 1
+   },
+   "ocr": 1,
+   "ms": 315
+  },
+  {
+   "file": "p32-scanned-clean.pdf",
+   "where": "scanned page, nothing sensitive",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 1,
+   "ms": 339
+  },
+  {
+   "file": "p40-sticky-note.pdf",
+   "where": "sticky-note comment",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 60
+  },
+  {
+   "file": "p41-form-field.pdf",
+   "where": "form-field value",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "CREDENTIAL": 2
+   },
+   "ocr": 0,
+   "ms": 53
+  },
+  {
+   "file": "p42-link-target.pdf",
+   "where": "link target (the visible text is harmless)",
+   "expect": "block",
+   "expectReason": null,
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": null,
+   "categories": {
+    "NETWORK": 2
+   },
+   "ocr": 0,
+   "ms": 48
+  },
+  {
+   "file": "p50-password-protected.pdf",
+   "where": "password to open",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "encrypted",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 22
+  },
+  {
+   "file": "p51-copy-restricted.pdf",
+   "where": "encrypted, copying disabled",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "encrypted",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 27
+  },
+  {
+   "file": "p52-61-pages.pdf",
+   "where": "61 pages, over the limit of 60",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "too-many-pages",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 11
+  },
+  {
+   "file": "p53-9-scanned-pages.pdf",
+   "where": "9 scanned pages, over the limit of 8",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "too-many-scanned-pages",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 54
+  },
+  {
+   "file": "p54-attachment.pdf",
+   "where": "file attached inside the PDF",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "embedded-object",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 45
+  },
+  {
+   "file": "p55-damaged.pdf",
+   "where": "damaged file",
+   "expect": "uninspectable",
+   "expectReason": null,
+   "got": "uninspectable",
+   "ok": true,
+   "reason": "damaged",
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 12
+  },
+  {
+   "file": "d40-label-restricted.docx",
+   "where": "Purview label named Restricted, harmless text",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "Restricted",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d41-label-arabic-top-secret.docx",
+   "where": "Purview label with an Arabic name",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "top-secret",
+    "name": "سري للغاية",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d42-label-guid-mapped.docx",
+   "where": "label list with a GUID the organisation mapped to Secret",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "secret",
+    "name": null,
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d43-label-guid-unmapped.docx",
+   "where": "label list with a GUID nobody mapped",
+   "expect": "block",
+   "expectReason": "unknown-label",
+   "got": "block",
+   "ok": true,
+   "reason": "unknown-label",
+   "label": {
+    "level": null,
+    "name": null,
+    "known": false,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d44-label-removed.docx",
+   "where": "label marked as removed",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d45-label-public.docx",
+   "where": "Purview label named Public",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": {
+    "level": "public",
+    "name": "Public",
+    "known": true,
+    "action": "allow"
+   },
+   "categories": {},
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d46-label-public-with-password.docx",
+   "where": "labelled Public but the text holds a password",
+   "expect": "block",
+   "expectReason": "secret-in-file",
+   "got": "block",
+   "ok": true,
+   "reason": "secret-in-file",
+   "label": {
+    "level": "public",
+    "name": "Public",
+    "known": true,
+    "action": "allow"
+   },
+   "categories": {
+    "NETWORK": 1,
+    "CREDENTIAL": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d47-classification-property-arabic.docx",
+   "where": "plain classification property in Arabic",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "مقيّد",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d48-label-disabled.docx",
+   "where": "label switched off (Enabled=false)",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d49-label-sublabel.docx",
+   "where": "sub-label under Confidential",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "Confidential \\ Finance",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "d50-label-organisation-name.docx",
+   "where": "the organisation's own label name, mapped in the policy",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "Internal Use Only",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d51-label-unknown-name.docx",
+   "where": "label name with no rule",
+   "expect": "block",
+   "expectReason": "unknown-label",
+   "got": "block",
+   "ok": true,
+   "reason": "unknown-label",
+   "label": {
+    "level": null,
+    "name": "Project Falcon",
+    "known": false,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d52-no-label-custom-property.docx",
+   "where": "custom properties that are not labels",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "p60-label-secret.pdf",
+   "where": "Purview label in the document properties",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "secret",
+    "name": "Secret",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 58
+  },
+  {
+   "file": "p61-label-xmp-restricted.pdf",
+   "where": "Purview label in the XMP metadata",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "Restricted",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 49
+  },
+  {
+   "file": "p62-label-public.pdf",
+   "where": "Purview label named Public",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": {
+    "level": "public",
+    "name": "Public",
+    "known": true,
+    "action": "allow"
+   },
+   "categories": {},
+   "ocr": 0,
+   "ms": 46
+  },
+  {
+   "file": "p63-label-guid-mapped.pdf",
+   "where": "label GUID the organisation mapped to Secret, no name",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "secret",
+    "name": null,
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 55
+  },
+  {
+   "file": "p64-label-guid-unmapped.pdf",
+   "where": "label GUID nobody mapped, no name",
+   "expect": "block",
+   "expectReason": "unknown-label",
+   "got": "block",
+   "ok": true,
+   "reason": "unknown-label",
+   "label": {
+    "level": null,
+    "name": null,
+    "known": false,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 49
+  },
+  {
+   "file": "p65-classification-property.pdf",
+   "where": "plain classification property",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "top-secret",
+    "name": "Top Secret",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 46
+  },
+  {
+   "file": "d53-label-kept-after-libreoffice-save.docx",
+   "where": "Purview label in custom properties, file re-saved by LibreOffice",
+   "expect": "block",
+   "expectReason": "labelled",
+   "got": "block",
+   "ok": true,
+   "reason": "labelled",
+   "label": {
+    "level": "restricted",
+    "name": "Restricted",
+    "known": true,
+    "action": "block"
+   },
+   "categories": {
+    "CLASSIFIED": 1
+   },
+   "ocr": 0,
+   "ms": 0
+  },
+  {
+   "file": "d54-label-list-lost-after-libreoffice-save.docx",
+   "where": "label list dropped by LibreOffice when it re-saved the file",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 1
+  },
+  {
+   "file": "p66-label-lost-in-libreoffice-pdf.pdf",
+   "where": "labelled Word file exported to PDF by LibreOffice, which does not copy the label",
+   "expect": "allow",
+   "expectReason": null,
+   "got": "allow",
+   "ok": true,
+   "reason": null,
+   "label": null,
+   "categories": {},
+   "ocr": 0,
+   "ms": 46
+  }
+ ]
+}

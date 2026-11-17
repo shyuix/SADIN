@@ -1,8 +1,8 @@
 {
   "set": "arabic-dev",
-  "engineVersion": "0.4.0",
-  "runAt": "2026-09-24T20:01:15.927Z",
-  "node": "v22.22.2",
+  "engineVersion": "0.4.1",
+  "runAt": "2026-11-17T11:04:24.467Z",
+  "node": "v22.23.4",
   "corpus": {
     "sensitiveMessages": 34,
     "sensitiveItems": 47,
@@ -58,12 +58,12 @@
     "rate": 0
   },
   "latencyMs": {
-    "median": 0.019507999999994752,
-    "p95": 0.07403099999999796,
-    "max": 4.119900999999999
+    "median": 0.021005000000002383,
+    "p95": 0.07458699999999396,
+    "max": 0.08687000000000467
   },
   "latency1MB": {
-    "medianMs": 271.534726,
+    "medianMs": 463.4004769999999,
     "bytes": 1000028
   },
   "perLanguage": {

@@ -1,0 +1,82 @@
+{
+ "set": "holdout.js + arabic-holdout.js as documents",
+ "engine": "0.4.1",
+ "date": "2026-11-17",
+ "items": 150,
+ "formats": {
+  "docx": {
+   "flaggedAsText": 61,
+   "flaggedStillFlagged": 61,
+   "cleanAsText": 89,
+   "cleanStillClean": 89,
+   "sameDecision": 150,
+   "byLang": {
+    "en": {
+     "flaggedAsText": 20,
+     "flaggedStillFlagged": 20,
+     "cleanAsText": 25,
+     "cleanStillClean": 25
+    },
+    "ar": {
+     "flaggedAsText": 41,
+     "flaggedStillFlagged": 41,
+     "cleanAsText": 64,
+     "cleanStillClean": 64
+    }
+   },
+   "lost": [],
+   "gained": [],
+   "notInspected": []
+  },
+  "pdf-libreoffice": {
+   "flaggedAsText": 61,
+   "flaggedStillFlagged": 60,
+   "cleanAsText": 89,
+   "cleanStillClean": 89,
+   "sameDecision": 149,
+   "byLang": {
+    "en": {
+     "flaggedAsText": 20,
+     "flaggedStillFlagged": 20,
+     "cleanAsText": 25,
+     "cleanStillClean": 25
+    },
+    "ar": {
+     "flaggedAsText": 41,
+     "flaggedStillFlagged": 40,
+     "cleanAsText": 64,
+     "cleanStillClean": 64
+    }
+   },
+   "lost": [
+    "AH10"
+   ],
+   "gained": [],
+   "notInspected": []
+  },
+  "pdf-chrome": {
+   "flaggedAsText": 61,
+   "flaggedStillFlagged": 61,
+   "cleanAsText": 89,
+   "cleanStillClean": 89,
+   "sameDecision": 150,
+   "byLang": {
+    "en": {
+     "flaggedAsText": 20,
+     "flaggedStillFlagged": 20,
+     "cleanAsText": 25,
+     "cleanStillClean": 25
+    },
+    "ar": {
+     "flaggedAsText": 41,
+     "flaggedStillFlagged": 41,
+     "cleanAsText": 64,
+     "cleanStillClean": 64
+    }
+   },
+   "lost": [],
+   "gained": [],
+   "notInspected": []
+  }
+ }
+}

@@ -13,6 +13,9 @@
   var reentry = false;        // true while we re-dispatch a sanitised event
   var TEXT_EXT = /\.(txt|csv|tsv|json|ya?ml|env|conf|cfg|cnf|ini|log|xml|md|sh|bash|ps1|psm1|py|js|ts|java|cs|go|rb|php|sql|pem|key|crt|tf|tfvars|properties|toml|config|htaccess)$/i;
   var IMG_TYPE = /^image\/(png|jpe?g|webp|gif|bmp)$/i;
+  // documents the on-prem inspection service can read (the service checks the real content, not the name)
+  var DOC_EXT = /\.(pdf|docx)$/i;
+  var DOC_TYPE = /^application\/(pdf|vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/i;
 
   chrome.runtime.sendMessage({ type: "getPolicy" }, function (p) { policy = p || null; });
 
@@ -127,12 +130,17 @@
   // ---------------------------------------------------------------------------
   // 3. File picker uploads
   // ---------------------------------------------------------------------------
-  document.addEventListener("change", function (e) {
+  // registered on window, like paste and drop, so it runs before any listener the page puts
+  // on window or document and the page never sees the original files
+  window.addEventListener("change", function (e) {
     var input = e.target;
     if (reentry || !e.isTrusted || !input || input.tagName !== "INPUT" || input.type !== "file") return;
     var files = Array.prototype.slice.call(input.files || []);
     if (!files.length) return;
     stop(e);
+    // empty the input while the files are being inspected (documents and images take a moment),
+    // so the page cannot read the originals from input.files in the meantime
+    input.value = "";
     handleFiles(files, "file", function (clean) {
       var dt = new DataTransfer();
       clean.forEach(function (f) { dt.items.add(f); });
@@ -165,25 +173,34 @@
     if (!composerFrom(e.target)) return;
     checkBeforeSend(e);
   }, true);
+  // Any button can be the send button: sites label it differently, or not at all (an icon with
+  // no name). So every button click is checked against what is in the composer. Scanning is
+  // cheap, and a click only gets stopped when the composer holds something to redact or block.
   window.addEventListener("click", function (e) {
     if (!e.isTrusted) return;
-    var b = e.target && e.target.closest && e.target.closest("button, [role='button']");
+    var b = e.target && e.target.closest && e.target.closest("button, [role='button'], input[type='submit']");
     if (!b) return;
-    var sig = [(b.getAttribute("aria-label") || ""), (b.getAttribute("data-testid") || ""), (b.title || "")].join(" ");
-    if (!/send|submit|إرسال|ارسال/i.test(sig)) return;
+    checkBeforeSend(e);
+  }, true);
+  // a form submitted some other way (for example Enter in a single-line field)
+  window.addEventListener("submit", function (e) {
+    if (!e.isTrusted) return;
     checkBeforeSend(e);
   }, true);
 
   function stop(e) { e.preventDefault(); e.stopImmediatePropagation(); }
 
   // ---------------------------------------------------------------------------
-  // File handling: text files are scanned here; images go to the on-prem OCR
-  // service; anything SADIN cannot inspect follows the fail-closed policy.
+  // File handling: text files are scanned here; images, PDF and Word files go to
+  // the on-prem inspection service; anything SADIN cannot inspect follows the
+  // fail-closed policy.
   // ---------------------------------------------------------------------------
   function handleFiles(files, channel, done) {
     var out = [], pending = files.length, summary = { action: "allow", categories: {}, placeholders: 0, files: [] };
     function merge(r, name) {
       var rank = { allow: 0, warn: 1, redact: 2, block: 3 };
+      // keep the reason of the strictest decision so the notice can explain it
+      if (r.reason && rank[r.action] >= rank[summary.action]) { summary.reason = r.reason; summary.detail = r.detail; summary.label = r.label; }
       if (rank[r.action] > rank[summary.action]) summary.action = r.action;
       Object.keys(r.categories || {}).forEach(function (k) { summary.categories[k] = (summary.categories[k] || 0) + r.categories[k]; });
       summary.placeholders += r.placeholders || 0;
@@ -202,15 +219,44 @@
           finish();
         });
       } else if (f.type.indexOf("text/") === 0 || TEXT_EXT.test(f.name) || f.type === "application/json") {
-        f.text().then(function (t) {
+        sniff(f).then(function (kind) {
+          // A PDF or Office file renamed to .txt would be scanned as unreadable bytes and pass.
+          // The first bytes decide, not the name.
+          if (kind === "document") {
+            return inspectFile(f, function (r) { merge(r, f.name); if (r.action !== "block") out.push(f); finish(); });
+          }
+          if (kind === "binary") {
+            var mode = (policy && policy.uninspectableFiles) || "block";
+            merge({ action: mode, categories: {}, placeholders: 0, reason: "uninspectable", detail: "not-text" }, f.name);
+            if (mode !== "block") out.push(f);
+            return finish();
+          }
+          // Windows tools often write UTF-16 (Notepad "Unicode", PowerShell redirection); read as
+          // UTF-8 it would be unreadable and pass. Decode it properly before scanning.
+          var read = kind === "utf-16le" || kind === "utf-16be"
+            ? f.arrayBuffer().then(function (buf) { return new TextDecoder(kind).decode(buf); })
+            : f.text();
+          return read.then(function (t) {
           var r = scan(t);
           merge(r, f.name);
           if (r.action === "block") return finish();
           out.push(r.action === "redact" ? new File([r.redactedText], f.name, { type: f.type || "text/plain", lastModified: Date.now() }) : f);
           finish();
+          });
+        }).catch(function () {
+          merge({ action: "block", categories: {}, placeholders: 0, reason: "file-unreadable" }, f.name);
+          finish();
+        });
+      } else if (DOC_TYPE.test(f.type) || DOC_EXT.test(f.name)) {
+        // PDF and Word: read by the inspection service. A document cannot be redacted in
+        // place yet, so it either passes whole or is held back whole.
+        inspectFile(f, function (r) {
+          merge(r, f.name);
+          if (r.action !== "block") out.push(f);
+          finish();
         });
       } else {
-        // PDF, Office, archives: not parsed in this MVP build
+        // other Office formats, archives: not parsed in this build
         var mode = (policy && policy.uninspectableFiles) || "block";
         var r = { action: mode === "allow" ? "allow" : mode, categories: {}, placeholders: 0, reason: "uninspectable" };
         merge(r, f.name);
@@ -218,6 +264,42 @@
         finish();
       }
     });
+  }
+
+  // "utf-16le" / "utf-16be": text with that byte-order mark. "text": anything else.
+  // "document": starts like a PDF, a ZIP container (.docx and other Office files) or a legacy
+  // Office file, so the inspection service decides. "binary": has NUL bytes, so it is not text.
+  function sniff(file) {
+    return file.slice(0, 4096).arrayBuffer().then(function (buf) {
+      var b = new Uint8Array(buf);
+      var starts = function (sig) { for (var i = 0; i < sig.length; i++) if (b[i] !== sig[i]) return false; return b.length >= sig.length; };
+      if (starts([0x25, 0x50, 0x44, 0x46]) || starts([0x50, 0x4B, 0x03, 0x04]) || starts([0xD0, 0xCF, 0x11, 0xE0])) return "document";
+      // UTF-16 text has NUL bytes too, but starts with a byte-order mark
+      if (starts([0xFF, 0xFE])) return "utf-16le";
+      if (starts([0xFE, 0xFF])) return "utf-16be";
+      for (var i = 0; i < b.length; i++) if (b[i] === 0) return "binary";
+      return "text";
+    });
+  }
+
+  function inspectFile(file, cb) {
+    var reader = new FileReader();
+    reader.onerror = function () { cb({ action: "block", categories: {}, placeholders: 0, reason: "file-unreadable" }); };
+    reader.onload = function () {
+      chrome.runtime.sendMessage({ type: "inspectFile", dataUrl: reader.result }, function (res) {
+        if (!res || res.error) {
+          var fc = !policy || policy.failClosed !== false;
+          return cb({ action: fc ? "block" : "warn", categories: {}, placeholders: 0, reason: "file-unreachable" });
+        }
+        if (!res.inspected) {
+          // encrypted, damaged, over the limits, embedded objects...: the organisation's policy decides
+          var mode = (policy && policy.uninspectableFiles) || "block";
+          return cb({ action: mode, categories: {}, placeholders: 0, reason: "uninspectable", detail: res.reason });
+        }
+        cb({ action: res.action, categories: res.categories || {}, placeholders: 0, reason: res.reason, label: res.label });
+      });
+    };
+    reader.readAsDataURL(file);
   }
 
   function inspectImage(file, cb) {
@@ -289,7 +371,12 @@
     }).join("");
     var blocked = r.action === "block";
     var reason = r.reason === "ocr-unreachable" ? "Image could not be inspected (inspection service unreachable). Not sent." :
-                 r.reason === "uninspectable" ? "This file type is not inspected yet. Not sent, per policy." : "";
+                 r.reason === "file-unreachable" ? "File could not be inspected (inspection service unreachable). Not sent." :
+                 r.reason === "file-unreadable" ? "File could not be read. Not sent." :
+                 r.reason === "labelled" ? labelText(r.label) :
+                 r.reason === "unknown-label" ? "This document carries a sensitivity label SADIN has no rule for. Ask your security team to add it." :
+                 r.reason === "secret-in-file" ? "This file contains protected content. Remove it from the document, or paste the text so SADIN can redact it." :
+                 r.reason === "uninspectable" ? (UNINSPECTABLE[r.detail] || "This file type is not inspected yet.") + " Not sent, per policy." : "";
     var title = blocked ? "SADIN blocked this before sending" :
                 r.action === "warn" ? "SADIN flagged this content" :
                 "SADIN redacted " + (r.placeholders || 0) + " item" + ((r.placeholders || 0) === 1 ? "" : "s") + " before sending";
@@ -297,7 +384,8 @@
                   r.action === "warn" ? "نبّه سادن إلى هذا المحتوى" :
                   "حجب سادن " + arItems(r.placeholders || 0) + " قبل الإرسال";
     var next = channel === "type" && !blocked ? "Review the message, then press send again." :
-               blocked ? (Object.keys(r.categories || {}).indexOf("CLASSIFIED") >= 0 ? "Classified documents cannot be sent to external AI tools." : reason) :
+               blocked ? (reason && /label/.test(r.reason) ? reason : Object.keys(r.categories || {}).indexOf("CLASSIFIED") >= 0 ? "Classified documents cannot be sent to external AI tools." : reason) :
+               r.action === "warn" && /label/.test(r.reason || "") ? reason :
                "The rest of your content was passed on unchanged.";
     root.innerHTML = '<style>' + CSS + '</style>' +
       '<div class="card ' + (blocked ? "block" : r.action) + '" role="alert">' +
@@ -322,6 +410,30 @@
     host.onmouseleave = function () { timer = setTimeout(hide, 6000); };
     timer = setTimeout(hide, 14000);
   }
+  // the label name comes from the file's metadata, so it is escaped before it goes into the notice
+  function escHtml(t) { return String(t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  var LEVEL_NAMES = { "top-secret": "Top Secret", "secret": "Secret", "restricted": "Restricted", "public": "Public" };
+  function labelText(label) {
+    var level = label && LEVEL_NAMES[label.level] ? LEVEL_NAMES[label.level] : "";
+    // <bdi> keeps an Arabic label name from reordering the English sentence around it
+    var name = label && label.name && label.name.toLowerCase() !== level.toLowerCase() ? ' "<bdi>' + escHtml(label.name) + '</bdi>"' : "";
+    return "This document carries the sensitivity label" + name + (level ? " (" + level + ")" : "") + ". Documents at this level are not sent to external AI tools.";
+  }
+  var UNINSPECTABLE = {
+    "encrypted": "This file is password-protected, so it cannot be inspected.",
+    "legacy-or-password-protected": "This file is password-protected or in a legacy Office format, so it cannot be inspected.",
+    "damaged": "This file is damaged and cannot be inspected.",
+    "too-many-pages": "This document is longer than the inspection limit.",
+    "too-many-scanned-pages": "This document has more scanned pages or pictures than the inspection limit.",
+    "too-many-pictures": "This document has more pictures than the inspection limit.",
+    "unreadable-picture": "This document contains a picture format that cannot be inspected.",
+    "embedded-object": "This document contains an embedded file that cannot be inspected.",
+    "macros": "This document contains macros, which cannot be inspected.",
+    "unknown-part": "This document contains a component that cannot be inspected.",
+    "not-text": "This file is named like a text file but does not contain text.",
+    "tool-missing": "The inspection service is missing a component, so this file cannot be inspected.",
+    "ocr-failed": "The pictures in this document could not be read."
+  };
   function arItems(n) {
     if (n === 1) return "عنصرًا واحدًا";
     if (n === 2) return "عنصرين";

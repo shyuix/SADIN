@@ -1,0 +1,21 @@
+Windows Registry Editor Version 5.00
+
+; SADIN lock-down for Microsoft Edge on Windows. TEMPLATE: not run in the lab (see docs/TAMPER-RESISTANCE.md).
+; Edge names the private-window policy InPrivateModeAvailability, not IncognitoModeAvailability.
+; Replace <EXTENSION_ID>, <SADIN_TOKEN>, <DEVICE_NAME> and <EMPLOYEE_WORK_EMAIL>.
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge]
+"InPrivateModeAvailability"=dword:00000001
+"BrowserGuestModeEnabled"=dword:00000000
+"BrowserAddProfileEnabled"=dword:00000000
+"DeveloperToolsAvailability"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\ExtensionInstallForcelist]
+"1"="<EXTENSION_ID>;https://sadin.corp.example.sa/extension/update.xml"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\3rdparty\extensions\<EXTENSION_ID>\policy]
+"serverUrl"="https://sadin.corp.example.sa"
+"serverToken"="<SADIN_TOKEN>"
+"deviceId"="<DEVICE_NAME>"
+"userEmail"="<EMPLOYEE_WORK_EMAIL>"
+"heartbeatSeconds"=dword:0000003c

@@ -21,7 +21,7 @@ not a general personal-data scanner: phone numbers and IBANs are not its job.
 
 ```mermaid
 flowchart LR
-    T["Text<br/>(typed, pasted,<br/>file, or OCR output)"] --> N["Normalise<br/>Arabic-Indic digits<br/>to 0-9, same offsets"]
+    T["Text<br/>(typed, pasted,<br/>file, or OCR output)"] --> N["Normalise<br/>Arabic-Indic digits to 0-9,<br/>drop invisible characters"]
     N --> D["Run 56 detectors<br/>pattern + validator"]
     D --> O["Resolve overlaps<br/>longest span wins"]
     O --> A["Pick action<br/>strictest class wins"]
@@ -35,6 +35,11 @@ flowchart LR
    and the Arabic decimal separator are mapped one-to-one to ASCII. Because the mapping never
    changes the length of the text, spans found in the normalised copy redact exactly the right
    characters in the original, so `١٠.١٥.٢.٢٠` is caught and replaced as written.
+   **Invisible characters (engine v0.4.1).** Zero-width spaces and joiners, direction marks,
+   the soft hyphen, the byte-order mark and the Arabic tatweel are removed before matching,
+   and each finding is mapped back to its place in the original. So "ســري للغاية", a keyword
+   with a hidden character in it, and "كلمة المرور:" followed by a right-to-left mark are all
+   caught. Arabic text copied from Word, web pages and chat apps carries these routinely.
 2. **Detect.** Each detector is a pattern plus, where needed, a validator: port numbers must be
    1 to 65535, IPv4 addresses must parse and fall in a private range or in one of the
    organisation's public ranges, password candidates must mix character classes, and common

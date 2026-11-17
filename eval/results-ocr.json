@@ -3,21 +3,22 @@
   "seededValues": 72,
   "valuesMasked": 69,
   "maskRecall": 0.9583333333333334,
-  "readableAfterMasking": 1,
+  "readableAfterMasking": 0,
   "classifiedImages": 8,
-  "classifiedBlocked": 8,
+  "classifiedBlocked": 7,
   "nonClassifiedWronglyBlocked": 0,
   "latencyMs": {
-    "median": 1745,
-    "max": 3614
+    "median": 657,
+    "max": 1079
   },
   "results": [
     {
       "file": "case01-soc-dashboard.png",
       "kind": "soc-dashboard",
       "action": "redact",
-      "boxes": 8,
+      "boxes": 7,
       "missed": [
+        "dc03 (covered 0%)",
         "dc04 (covered 0%)"
       ],
       "leakedAfterMask": []
@@ -42,7 +43,7 @@
       "file": "case04-arabic-memo-stamp.png",
       "kind": "arabic-memo-stamp",
       "action": "block",
-      "boxes": 4,
+      "boxes": 2,
       "missed": [],
       "leakedAfterMask": []
     },
@@ -58,13 +59,9 @@
       "file": "case06-soc-dashboard.png",
       "kind": "soc-dashboard",
       "action": "redact",
-      "boxes": 8,
-      "missed": [
-        "172.31.240.154 (covered 0%)"
-      ],
-      "leakedAfterMask": [
-        "172.31.240.154"
-      ]
+      "boxes": 9,
+      "missed": [],
+      "leakedAfterMask": []
     },
     {
       "file": "case07-router-terminal.png",
@@ -86,7 +83,7 @@
       "file": "case09-arabic-memo-stamp.png",
       "kind": "arabic-memo-stamp",
       "action": "block",
-      "boxes": 4,
+      "boxes": 2,
       "missed": [],
       "leakedAfterMask": []
     },
@@ -126,7 +123,7 @@
       "file": "case14-arabic-memo-stamp.png",
       "kind": "arabic-memo-stamp",
       "action": "block",
-      "boxes": 4,
+      "boxes": 2,
       "missed": [],
       "leakedAfterMask": []
     },
@@ -152,7 +149,7 @@
       "file": "case17-router-terminal.png",
       "kind": "router-terminal",
       "action": "redact",
-      "boxes": 6,
+      "boxes": 5,
       "missed": [],
       "leakedAfterMask": []
     },
@@ -167,9 +164,11 @@
     {
       "file": "case19-arabic-memo-stamp.png",
       "kind": "arabic-memo-stamp",
-      "action": "block",
-      "boxes": 1,
-      "missed": [],
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:سري"
+      ],
       "leakedAfterMask": []
     },
     {

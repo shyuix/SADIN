@@ -1,8 +1,8 @@
 {
   "set": "arabic-holdout",
-  "engineVersion": "0.4.0",
-  "runAt": "2026-09-26T10:33:16.278Z",
-  "node": "v22.22.2",
+  "engineVersion": "0.4.1",
+  "runAt": "2026-11-17T11:04:26.018Z",
+  "node": "v22.23.4",
   "corpus": {
     "sensitiveMessages": 30,
     "sensitiveItems": 36,
@@ -58,12 +58,12 @@
     "rate": 0.025
   },
   "latencyMs": {
-    "median": 0.019569000000004166,
-    "p95": 0.05729099999999221,
-    "max": 0.23170399999999347
+    "median": 0.017405000000003668,
+    "p95": 0.09266700000000583,
+    "max": 0.31900199999999757
   },
   "latency1MB": {
-    "medianMs": 243.3043419999999,
+    "medianMs": 280.65108799999996,
     "bytes": 1000026
   },
   "perLanguage": {

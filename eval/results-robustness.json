@@ -1,0 +1,138 @@
+{
+ "engine": "0.4.1",
+ "date": "2026-11-17",
+ "required": 14,
+ "ok": 14,
+ "knownGaps": 9,
+ "rows": [
+  {
+   "name": "zero-width space inside a keyword",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "zero-width space inside an internal address",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "zero-width space inside the secret itself",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "right-to-left mark after an Arabic keyword",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "tatweel inside an Arabic keyword",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "tatweel inside a classification marking",
+   "expected": "block",
+   "got": "block",
+   "ok": true
+  },
+  {
+   "name": "byte-order mark at the start",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "soft hyphen inside a keyword",
+   "expected": "redact",
+   "got": "redact",
+   "ok": true
+  },
+  {
+   "name": "clean Arabic with tatweel",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "clean Arabic with a direction mark",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "clean: everyday use of the word secret",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "clean: a film title",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "clean: Arabic everyday 'secret between us'",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "clean: a public DNS address",
+   "expected": "allow",
+   "got": "allow",
+   "ok": true
+  },
+  {
+   "name": "address written with spaces",
+   "knownGap": "deliberate obfuscation",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "address written as 10[.]20[.]30[.]40",
+   "knownGap": "deliberate obfuscation",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "full-width digits",
+   "knownGap": "deliberate obfuscation",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "look-alike letter in the keyword",
+   "knownGap": "deliberate obfuscation",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "password with no keyword near it",
+   "knownGap": "no keyword, and the value alone is not random enough to flag",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "bare Arabic 'سري' as a document heading",
+   "knownGap": "the single word is too common in everyday Arabic to block on; 'التصنيف: سري' and 'سري للغاية' are caught",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "lower-case 'top secret' inside a sentence",
+   "knownGap": "English markings are matched in capitals or as a labelled line, to avoid everyday phrases",
+   "engineDoes": "allow"
+  },
+  {
+   "name": "false positive: a version number that looks like an internal address",
+   "knownGap": "redacted as an internal address; the message still goes",
+   "engineDoes": "redact"
+  },
+  {
+   "name": "false positive: everyday Arabic 'سري جداً'",
+   "knownGap": "'سري جداً' is also a classification level, so the message is blocked",
+   "engineDoes": "block"
+  }
+ ]
+}

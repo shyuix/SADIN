@@ -1,0 +1,103 @@
+{
+ "date": "2026-11-17",
+ "passed": 16,
+ "total": 16,
+ "rows": [
+  {
+   "n": "E1",
+   "check": "a decision logged while the service was down reaches it once it is back",
+   "result": "PASS",
+   "observed": "text was still redacted offline: true; events on the service 28 -> 30"
+  },
+  {
+   "n": "F1",
+   "check": "PDF holding a password, renamed to .txt, is held back",
+   "result": "PASS",
+   "observed": "held back"
+  },
+  {
+   "n": "F2",
+   "check": "Word file with a password in a comment, renamed to .log, is held back",
+   "result": "PASS",
+   "observed": "held back"
+  },
+  {
+   "n": "F3",
+   "check": "harmless Word file labelled Restricted, renamed to .md, is held back",
+   "result": "PASS",
+   "observed": "held back"
+  },
+  {
+   "n": "F4",
+   "check": "binary data named .txt is held back",
+   "result": "PASS",
+   "observed": "held back"
+  },
+  {
+   "n": "F5",
+   "check": "clean PDF renamed to .txt still passes (inspected as a PDF)",
+   "result": "PASS",
+   "observed": "reaches the page"
+  },
+  {
+   "n": "F6",
+   "check": "ordinary clean text file passes",
+   "result": "PASS",
+   "observed": "reaches the page"
+  },
+  {
+   "n": "F7",
+   "check": "Arabic UTF-8 text file passes",
+   "result": "PASS",
+   "observed": "reaches the page"
+  },
+  {
+   "n": "F8",
+   "check": "UTF-16 text file (little-endian, as Windows tools write) with a password is read and redacted",
+   "result": "PASS",
+   "observed": "page received: ipconfig output password: [SECRET_1] "
+  },
+  {
+   "n": "F9",
+   "check": "UTF-16 text file (big-endian, as Windows tools write) with a password is read and redacted",
+   "result": "PASS",
+   "observed": "page received: ipconfig output password: [SECRET_1] "
+  },
+  {
+   "n": "P1",
+   "check": "a listener the page puts on window never receives a held-back file",
+   "result": "PASS",
+   "observed": "files seen by the page: 0"
+  },
+  {
+   "n": "S1",
+   "check": "typed password is redacted when the send button has no label",
+   "result": "PASS",
+   "observed": "vendor received [SECRET_1]"
+  },
+  {
+   "n": "T1",
+   "check": "zero-width characters inside a keyword and an address do not hide them",
+   "result": "PASS",
+   "observed": "POST /v1/chat pass​word: [SECRET_1] and server [INTERNAL_IP_1]"
+  },
+  {
+   "n": "T2",
+   "check": "a classification marking written with tatweel is blocked",
+   "result": "PASS",
+   "observed": "nothing reached the vendor"
+  },
+  {
+   "n": "T3",
+   "check": "a direction mark after an Arabic keyword does not hide the password",
+   "result": "PASS",
+   "observed": "POST /v1/chat كلمة المرور:‏ [SECRET_1] ما تشتغل"
+  },
+  {
+   "n": "C1",
+   "check": "an ordinary Arabic request still goes through unchanged",
+   "result": "PASS",
+   "observed": "POST /v1/chat اكتب لي ايميل رسمي لمديري أطلب فيه إجازة يوم الأحد"
+  }
+ ]
+}

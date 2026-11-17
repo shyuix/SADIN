@@ -11,9 +11,11 @@
 "use strict";
 const fs = require("fs");
 const path = require("path");
-const NM = process.env.NODE_MODULES || "/home/claude/.npm-global/lib/node_modules";
-const { chromium } = require(path.join(NM, "playwright"));
-const sharp = require(path.join(NM, "sharp"));
+// playwright and sharp are test-only dependencies: "npm install" in the repository root, or point
+// NODE_MODULES at a folder that has them
+const need = name => process.env.NODE_MODULES ? require(path.join(process.env.NODE_MODULES, name)) : require(name);
+const { chromium } = need("playwright");
+const sharp = need("sharp");
 const { ocr, inspectWords } = require("../server/server.js");
 
 const OUT = path.join(__dirname, "ocr-images");

@@ -1,0 +1,21 @@
+Windows Registry Editor Version 5.00
+
+; SADIN lock-down for Google Chrome on Windows. TEMPLATE: not run in the lab (see docs/TAMPER-RESISTANCE.md).
+; Replace <EXTENSION_ID>, <SADIN_TOKEN>, <DEVICE_NAME> and <EMPLOYEE_WORK_EMAIL>. On Windows, force-installing from
+; a private update server needs a device joined to Active Directory or managed by Intune.
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome]
+"IncognitoModeAvailability"=dword:00000001
+"BrowserGuestModeEnabled"=dword:00000000
+"BrowserAddPersonEnabled"=dword:00000000
+"DeveloperToolsAvailability"=dword:00000002
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist]
+"1"="<EXTENSION_ID>;https://sadin.corp.example.sa/extension/update.xml"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\3rdparty\extensions\<EXTENSION_ID>\policy]
+"serverUrl"="https://sadin.corp.example.sa"
+"serverToken"="<SADIN_TOKEN>"
+"deviceId"="<DEVICE_NAME>"
+"userEmail"="<EMPLOYEE_WORK_EMAIL>"
+"heartbeatSeconds"=dword:0000003c

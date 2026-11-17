@@ -4,6 +4,8 @@
     "serverUrl": { "type": "string", "description": "URL of the on-prem SADIN inspection server" },
     "serverToken": { "type": "string", "description": "Shared secret sent to the inspection server in the X-SADIN-Token header (must match SADIN_TOKEN on the server)" },
     "userEmail": { "type": "string", "description": "Work identity to record in the decision log" },
+    "deviceId": { "type": "string", "description": "Device name shown to the administrator in the device registry and in tamper alerts" },
+    "heartbeatSeconds": { "type": "integer", "minimum": 30, "description": "How often the extension reports to the inspection server (default 60, minimum 30)" },
     "policy": {
       "type": "object",
       "description": "Overrides for the SADIN policy",

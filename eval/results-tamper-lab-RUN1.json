@@ -1,0 +1,217 @@
+{
+ "environment": {
+  "date": "2026-11-17T11:08:01+00:00",
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "os": "Linux 6.18.44-fc-v553",
+  "extensionVersion": "0.7.0",
+  "extensionId": "kpbeiokefmlhlifoeifphdkpamfgckln",
+  "heartbeatSeconds": 30,
+  "serverGraceSeconds": 75
+ },
+ "counts": {
+  "PASS": 19,
+  "FAIL": 0,
+  "NOT EXERCISED": 0
+ },
+ "uninstallAddressFired": false,
+ "notes": {
+  "incognito_locked": "refused: Incognito mode is disabled.",
+  "incognito_unlocked": "accepted (no window object returned, as Chrome does for an extension without Incognito access)"
+ },
+ "rows": [
+  {
+   "n": "A1",
+   "attempt": "Extension arrives with no user action",
+   "method": "Policy ExtensionInstallForcelist, private update server",
+   "expected": "Installed and enabled by policy",
+   "observed": "installed in 2 s, state ENABLED, location UNKNOWN",
+   "result": "PASS"
+  },
+  {
+   "n": "A2",
+   "attempt": "Device reports to the server",
+   "method": "First heartbeat",
+   "expected": "Registered, installed by policy, files match the release",
+   "observed": "after 1 s: state ok, install type admin, files ok",
+   "result": "PASS"
+  },
+  {
+   "n": "A3",
+   "attempt": "The extensions page offers no way to change it",
+   "method": "Read the controls the page is given for this extension",
+   "expected": "User may not modify it",
+   "observed": "userMayModify=False, mustRemainInstalled=True",
+   "result": "PASS"
+  },
+  {
+   "n": "A4",
+   "attempt": "Employee disables the extension",
+   "method": "chrome.management.setEnabled(false) from the extensions page",
+   "expected": "Browser refuses",
+   "observed": "refused: Extension kpbeiokefmlhlifoeifphdkpamfgckln cannot be modified by user.; still ENABLED",
+   "result": "PASS"
+  },
+  {
+   "n": "A5",
+   "attempt": "Employee removes the extension",
+   "method": "chrome.management.uninstall from the extensions page",
+   "expected": "Browser refuses",
+   "observed": "refused: Extension kpbeiokefmlhlifoeifphdkpamfgckln cannot be modified by user.; still installed",
+   "result": "PASS"
+  },
+  {
+   "n": "A6",
+   "attempt": "Employee opens an Incognito window",
+   "method": "chrome.windows.create({incognito:true}) under IncognitoModeAvailability=1",
+   "expected": "Browser refuses",
+   "observed": "refused: Incognito mode is disabled.",
+   "result": "PASS"
+  },
+  {
+   "n": "A7",
+   "attempt": "Employee edits a script of the installed extension",
+   "method": "Append a line to src/content.js in the profile folder",
+   "expected": "Administrator alerted (integrity-mismatch)",
+   "observed": "alert after 25 s; the browser itself still shows the extension as ENABLED",
+   "result": "PASS"
+  },
+  {
+   "n": "A8",
+   "attempt": "Original file put back",
+   "method": "Restore src/content.js",
+   "expected": "Device returns to ok",
+   "observed": "state ok after 29 s",
+   "result": "PASS"
+  },
+  {
+   "n": "A9",
+   "attempt": "Employee deletes the detection engine file",
+   "method": "Delete src/engine.js in the profile folder",
+   "expected": "Administrator alerted (integrity-mismatch)",
+   "observed": "alert after 30 s",
+   "result": "PASS"
+  },
+  {
+   "n": "A10",
+   "attempt": "Employee deletes the extension's folder",
+   "method": "Remove the folder from the profile with the browser closed, reopen",
+   "expected": "Administrator alerted, or the browser repairs it",
+   "observed": "browser did not restore the folder; alert heartbeat-lost after 68 s",
+   "result": "PASS"
+  },
+  {
+   "n": "B1",
+   "attempt": "Someone with administrator rights deletes the policy file",
+   "method": "Remove the managed-policy file while the browser runs",
+   "expected": "Prevention is lost; administrator alerted",
+   "observed": "extension removed by the browser after 5 s; alert heartbeat-lost after 71 s",
+   "result": "PASS"
+  },
+  {
+   "n": "B2",
+   "attempt": "Policy file restored",
+   "method": "Write the managed-policy file again while the browser runs",
+   "expected": "Extension returns by itself; administrator told",
+   "observed": "extension back after 5 s; heartbeat-restored after 0 s",
+   "result": "PASS"
+  },
+  {
+   "n": "C1",
+   "attempt": "Extension installed by hand, not by policy",
+   "method": "Load the same extension without ExtensionInstallForcelist",
+   "expected": "Administrator alerted (not-force-installed)",
+   "observed": "alert after 4 s; install type development",
+   "result": "PASS"
+  },
+  {
+   "n": "C2",
+   "attempt": "Employee disables it when no policy protects it",
+   "method": "chrome.management.setEnabled(false) from the extensions page",
+   "expected": "Browser allows it (this is why force-install is required)",
+   "observed": "userMayModify=True; accepted; now DISABLED",
+   "result": "PASS"
+  },
+  {
+   "n": "C3",
+   "attempt": "Employee opens an Incognito window when no policy forbids it",
+   "method": "chrome.windows.create({incognito:true}), no IncognitoModeAvailability",
+   "expected": "Browser allows it (control for A6)",
+   "observed": "accepted (no window object returned, as Chrome does for an extension without Incognito access)",
+   "result": "PASS"
+  },
+  {
+   "n": "C4",
+   "attempt": "Disabled extension goes silent",
+   "method": "Wait for the server's grace period",
+   "expected": "Administrator alerted (heartbeat-lost)",
+   "observed": "alert after 76 s",
+   "result": "PASS"
+  },
+  {
+   "n": "G1",
+   "attempt": "Employee starts the browser in guest mode",
+   "method": "Start Chrome with --guest under BrowserGuestModeEnabled=false",
+   "expected": "No guest session; SADIN is present",
+   "observed": "browser opened the 'Default' profile; SADIN installed",
+   "result": "PASS"
+  },
+  {
+   "n": "G2",
+   "attempt": "Same start without the guest-mode policy",
+   "method": "Start Chrome with --guest, policy without BrowserGuestModeEnabled",
+   "expected": "Guest session without SADIN (the gap the policy closes)",
+   "observed": "browser opened the 'Guest Profile' profile; SADIN absent",
+   "result": "PASS"
+  },
+  {
+   "n": "D1",
+   "attempt": "Administrator opens the admin page",
+   "method": "GET /admin, enter the token",
+   "expected": "Devices and alerts are listed",
+   "observed": "4 devices and 8 of 8 alerts shown",
+   "result": "PASS"
+  }
+ ],
+ "alerts": [
+  {
+   "type": "integrity-mismatch",
+   "device": "LAB-PC-01",
+   "detail": "version 0.7.0"
+  },
+  {
+   "type": "integrity-mismatch",
+   "device": "LAB-PC-01",
+   "detail": "version 0.7.0"
+  },
+  {
+   "type": "heartbeat-lost",
+   "device": "LAB-PC-01",
+   "detail": "no heartbeat for 77 s"
+  },
+  {
+   "type": "heartbeat-lost",
+   "device": "LAB-PC-02",
+   "detail": "no heartbeat for 76 s"
+  },
+  {
+   "type": "heartbeat-restored",
+   "device": "LAB-PC-02",
+   "detail": null
+  },
+  {
+   "type": "not-force-installed",
+   "device": "LAB-PC-03",
+   "detail": "install type: development"
+  },
+  {
+   "type": "heartbeat-lost",
+   "device": "LAB-PC-02",
+   "detail": "no heartbeat for 84 s"
+  },
+  {
+   "type": "heartbeat-lost",
+   "device": "LAB-PC-03",
+   "detail": "no heartbeat for 80 s"
+  }
+ ]
+}

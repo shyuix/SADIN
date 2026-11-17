@@ -4,5 +4,12 @@
   "employeeIdPattern": "\\bEMP-?\\d{5,6}\\b",
   "failClosed": true,
   "uninspectableFiles": "block",
+  "labels": {
+    "ids": {},
+    "names": {},
+    "properties": ["Classification", "Sensitivity", "التصنيف"],
+    "actions": { "top-secret": "block", "secret": "block", "restricted": "block", "public": "allow" },
+    "unknown": "block"
+  },
   "actions": { "CLASSIFIED": "block", "CREDENTIAL": "redact", "NETWORK": "redact", "ACCOUNT": "redact", "SECURITY_FINDING": "warn" }
 }

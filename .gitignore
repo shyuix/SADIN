@@ -2,3 +2,5 @@ node_modules/
 server/events.jsonl
 *.log
 .DS_Store
+server/devices.json
+server/alerts.jsonl

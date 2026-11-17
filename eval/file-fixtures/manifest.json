@@ -1,0 +1,460 @@
+[
+  {
+    "file": "d01-body-english.docx",
+    "expect": "block",
+    "where": "body text"
+  },
+  {
+    "file": "d02-body-arabic-rtl.docx",
+    "expect": "block",
+    "where": "body text, right-to-left paragraph"
+  },
+  {
+    "file": "d03-body-arabic-ltr-paragraph.docx",
+    "expect": "block",
+    "where": "Arabic typed in a left-to-right paragraph"
+  },
+  {
+    "file": "d04-table-cell.docx",
+    "expect": "block",
+    "where": "table cell"
+  },
+  {
+    "file": "d05-header.docx",
+    "expect": "block",
+    "where": "page header"
+  },
+  {
+    "file": "d06-footer.docx",
+    "expect": "block",
+    "where": "page footer"
+  },
+  {
+    "file": "d07-footnote.docx",
+    "expect": "block",
+    "where": "footnote"
+  },
+  {
+    "file": "d08-comment.docx",
+    "expect": "block",
+    "where": "review comment"
+  },
+  {
+    "file": "d09-hyperlink-target.docx",
+    "expect": "block",
+    "where": "hyperlink target (the visible text is harmless)"
+  },
+  {
+    "file": "d10-tracked-deletion.docx",
+    "expect": "block",
+    "where": "text deleted with Track Changes"
+  },
+  {
+    "file": "d11-split-runs.docx",
+    "expect": "block",
+    "where": "value split across formatting runs"
+  },
+  {
+    "file": "d12-embedded-screenshot.docx",
+    "expect": "block",
+    "where": "picture inside the document (OCR)"
+  },
+  {
+    "file": "d13-classified-stamp-arabic.docx",
+    "expect": "block",
+    "where": "classification marking"
+  },
+  {
+    "file": "d14-document-title.docx",
+    "expect": "block",
+    "where": "document properties (title)"
+  },
+  {
+    "file": "d15-clean-english.docx",
+    "expect": "allow",
+    "where": "nothing sensitive"
+  },
+  {
+    "file": "d16-clean-arabic.docx",
+    "expect": "allow",
+    "where": "nothing sensitive"
+  },
+  {
+    "file": "d17-clean-with-picture.docx",
+    "expect": "allow",
+    "where": "harmless picture (OCR)"
+  },
+  {
+    "file": "d18-macros.docx",
+    "expect": "uninspectable",
+    "where": "macro project"
+  },
+  {
+    "file": "d19-embedded-object.docx",
+    "expect": "uninspectable",
+    "where": "embedded spreadsheet"
+  },
+  {
+    "file": "d20-emf-picture.docx",
+    "expect": "uninspectable",
+    "where": "picture format OCR cannot read"
+  },
+  {
+    "file": "d25-unknown-part.docx",
+    "expect": "uninspectable",
+    "where": "a component SADIN does not know how to read"
+  },
+  {
+    "file": "d26-chart-title.docx",
+    "expect": "block",
+    "where": "chart title"
+  },
+  {
+    "file": "d27-text-box.docx",
+    "expect": "block",
+    "where": "text box"
+  },
+  {
+    "file": "d21-too-many-pictures.docx",
+    "expect": "uninspectable",
+    "where": "9 pictures, over the limit of 8"
+  },
+  {
+    "file": "d22-truncated.docx",
+    "expect": "uninspectable",
+    "where": "damaged file"
+  },
+  {
+    "file": "d23-spreadsheet-renamed.docx",
+    "expect": "uninspectable",
+    "where": "an .xlsx renamed to .docx"
+  },
+  {
+    "file": "d24-legacy-doc.docx",
+    "expect": "uninspectable",
+    "where": "legacy or password-protected Office container"
+  },
+  {
+    "file": "d28-arabic-saved-by-libreoffice.docx",
+    "expect": "block",
+    "where": "body text",
+    "note": "re-saved as .docx by LibreOffice"
+  },
+  {
+    "file": "d29-clean-arabic-saved-by-libreoffice.docx",
+    "expect": "allow",
+    "where": "nothing sensitive",
+    "note": "re-saved as .docx by LibreOffice"
+  },
+  {
+    "file": "d30-clean-english-saved-by-libreoffice.docx",
+    "expect": "allow",
+    "where": "nothing sensitive",
+    "note": "re-saved as .docx by LibreOffice"
+  },
+  {
+    "file": "p01-body-english-libreoffice.pdf",
+    "expect": "block",
+    "where": "body text",
+    "note": "LibreOffice export of d01-body-english.docx"
+  },
+  {
+    "file": "p02-body-arabic-rtl-libreoffice.pdf",
+    "expect": "block",
+    "where": "body text, right-to-left paragraph",
+    "note": "LibreOffice export of d02-body-arabic-rtl.docx"
+  },
+  {
+    "file": "p03-body-arabic-ltr-paragraph-libreoffice.pdf",
+    "expect": "block",
+    "where": "Arabic typed in a left-to-right paragraph",
+    "note": "LibreOffice export of d03-body-arabic-ltr-paragraph.docx"
+  },
+  {
+    "file": "p04-table-cell-libreoffice.pdf",
+    "expect": "block",
+    "where": "table cell",
+    "note": "LibreOffice export of d04-table-cell.docx"
+  },
+  {
+    "file": "p05-header-libreoffice.pdf",
+    "expect": "block",
+    "where": "page header",
+    "note": "LibreOffice export of d05-header.docx"
+  },
+  {
+    "file": "p06-footer-libreoffice.pdf",
+    "expect": "block",
+    "where": "page footer",
+    "note": "LibreOffice export of d06-footer.docx"
+  },
+  {
+    "file": "p07-footnote-libreoffice.pdf",
+    "expect": "block",
+    "where": "footnote",
+    "note": "LibreOffice export of d07-footnote.docx"
+  },
+  {
+    "file": "p08-hyperlink-target-libreoffice.pdf",
+    "expect": "block",
+    "where": "hyperlink target (the visible text is harmless)",
+    "note": "LibreOffice export of d09-hyperlink-target.docx"
+  },
+  {
+    "file": "p09-split-runs-libreoffice.pdf",
+    "expect": "block",
+    "where": "value split across formatting runs",
+    "note": "LibreOffice export of d11-split-runs.docx"
+  },
+  {
+    "file": "p10-embedded-screenshot-libreoffice.pdf",
+    "expect": "block",
+    "where": "picture inside the document (OCR)",
+    "note": "LibreOffice export of d12-embedded-screenshot.docx"
+  },
+  {
+    "file": "p11-classified-stamp-arabic-libreoffice.pdf",
+    "expect": "block",
+    "where": "classification marking",
+    "note": "LibreOffice export of d13-classified-stamp-arabic.docx"
+  },
+  {
+    "file": "p12-clean-english-libreoffice.pdf",
+    "expect": "allow",
+    "where": "nothing sensitive",
+    "note": "LibreOffice export of d15-clean-english.docx"
+  },
+  {
+    "file": "p13-clean-arabic-libreoffice.pdf",
+    "expect": "allow",
+    "where": "nothing sensitive",
+    "note": "LibreOffice export of d16-clean-arabic.docx"
+  },
+  {
+    "file": "p14-clean-with-picture-libreoffice.pdf",
+    "expect": "allow",
+    "where": "harmless picture (OCR)",
+    "note": "LibreOffice export of d17-clean-with-picture.docx"
+  },
+  {
+    "file": "p20-english-chrome.pdf",
+    "expect": "block",
+    "where": "body text",
+    "note": "printed to PDF from Chrome"
+  },
+  {
+    "file": "p21-arabic-chrome.pdf",
+    "expect": "block",
+    "where": "body text",
+    "note": "printed to PDF from Chrome"
+  },
+  {
+    "file": "p22-clean-arabic-chrome.pdf",
+    "expect": "allow",
+    "where": "body text",
+    "note": "printed to PDF from Chrome"
+  },
+  {
+    "file": "p23-clean-english-chrome.pdf",
+    "expect": "allow",
+    "where": "body text",
+    "note": "printed to PDF from Chrome"
+  },
+  {
+    "file": "p30-scanned-english.pdf",
+    "expect": "block",
+    "where": "scanned page",
+    "note": "image-only PDF, read with OCR"
+  },
+  {
+    "file": "p31-scanned-arabic.pdf",
+    "expect": "block",
+    "where": "scanned page, Arabic",
+    "note": "image-only PDF, read with OCR"
+  },
+  {
+    "file": "p32-scanned-clean.pdf",
+    "expect": "allow",
+    "where": "scanned page, nothing sensitive",
+    "note": "image-only PDF, read with OCR"
+  },
+  {
+    "file": "p40-sticky-note.pdf",
+    "expect": "block",
+    "where": "sticky-note comment"
+  },
+  {
+    "file": "p41-form-field.pdf",
+    "expect": "block",
+    "where": "form-field value"
+  },
+  {
+    "file": "p42-link-target.pdf",
+    "expect": "block",
+    "where": "link target (the visible text is harmless)"
+  },
+  {
+    "file": "p50-password-protected.pdf",
+    "expect": "uninspectable",
+    "where": "password to open"
+  },
+  {
+    "file": "p51-copy-restricted.pdf",
+    "expect": "uninspectable",
+    "where": "encrypted, copying disabled"
+  },
+  {
+    "file": "p52-61-pages.pdf",
+    "expect": "uninspectable",
+    "where": "61 pages, over the limit of 60"
+  },
+  {
+    "file": "p53-9-scanned-pages.pdf",
+    "expect": "uninspectable",
+    "where": "9 scanned pages, over the limit of 8"
+  },
+  {
+    "file": "p54-attachment.pdf",
+    "expect": "uninspectable",
+    "where": "file attached inside the PDF"
+  },
+  {
+    "file": "p55-damaged.pdf",
+    "expect": "uninspectable",
+    "where": "damaged file"
+  },
+  {
+    "file": "d40-label-restricted.docx",
+    "expect": "block",
+    "where": "Purview label named Restricted, harmless text",
+    "reason": "labelled"
+  },
+  {
+    "file": "d41-label-arabic-top-secret.docx",
+    "expect": "block",
+    "where": "Purview label with an Arabic name",
+    "reason": "labelled"
+  },
+  {
+    "file": "d42-label-guid-mapped.docx",
+    "expect": "block",
+    "where": "label list with a GUID the organisation mapped to Secret",
+    "reason": "labelled",
+    "policy": "policy-labels.json"
+  },
+  {
+    "file": "d43-label-guid-unmapped.docx",
+    "expect": "block",
+    "where": "label list with a GUID nobody mapped",
+    "reason": "unknown-label"
+  },
+  {
+    "file": "d44-label-removed.docx",
+    "expect": "allow",
+    "where": "label marked as removed",
+    "policy": "policy-labels.json"
+  },
+  {
+    "file": "d45-label-public.docx",
+    "expect": "allow",
+    "where": "Purview label named Public"
+  },
+  {
+    "file": "d46-label-public-with-password.docx",
+    "expect": "block",
+    "where": "labelled Public but the text holds a password",
+    "reason": "secret-in-file"
+  },
+  {
+    "file": "d47-classification-property-arabic.docx",
+    "expect": "block",
+    "where": "plain classification property in Arabic",
+    "reason": "labelled"
+  },
+  {
+    "file": "d48-label-disabled.docx",
+    "expect": "allow",
+    "where": "label switched off (Enabled=false)"
+  },
+  {
+    "file": "d49-label-sublabel.docx",
+    "expect": "block",
+    "where": "sub-label under Confidential",
+    "reason": "labelled"
+  },
+  {
+    "file": "d50-label-organisation-name.docx",
+    "expect": "block",
+    "where": "the organisation's own label name, mapped in the policy",
+    "reason": "labelled",
+    "policy": "policy-labels.json"
+  },
+  {
+    "file": "d51-label-unknown-name.docx",
+    "expect": "block",
+    "where": "label name with no rule",
+    "reason": "unknown-label"
+  },
+  {
+    "file": "d52-no-label-custom-property.docx",
+    "expect": "allow",
+    "where": "custom properties that are not labels"
+  },
+  {
+    "file": "p60-label-secret.pdf",
+    "expect": "block",
+    "where": "Purview label in the document properties",
+    "reason": "labelled"
+  },
+  {
+    "file": "p61-label-xmp-restricted.pdf",
+    "expect": "block",
+    "where": "Purview label in the XMP metadata",
+    "reason": "labelled"
+  },
+  {
+    "file": "p62-label-public.pdf",
+    "expect": "allow",
+    "where": "Purview label named Public"
+  },
+  {
+    "file": "p63-label-guid-mapped.pdf",
+    "expect": "block",
+    "where": "label GUID the organisation mapped to Secret, no name",
+    "reason": "labelled",
+    "policy": "policy-labels.json"
+  },
+  {
+    "file": "p64-label-guid-unmapped.pdf",
+    "expect": "block",
+    "where": "label GUID nobody mapped, no name",
+    "reason": "unknown-label"
+  },
+  {
+    "file": "p65-classification-property.pdf",
+    "expect": "block",
+    "where": "plain classification property",
+    "reason": "labelled"
+  },
+  {
+    "file": "d53-label-kept-after-libreoffice-save.docx",
+    "expect": "block",
+    "where": "Purview label in custom properties, file re-saved by LibreOffice",
+    "reason": "labelled"
+  },
+  {
+    "file": "d54-label-list-lost-after-libreoffice-save.docx",
+    "expect": "allow",
+    "where": "label list dropped by LibreOffice when it re-saved the file",
+    "note": "known gap: the label is no longer in the file",
+    "policy": "policy-labels.json",
+    "gap": true
+  },
+  {
+    "file": "p66-label-lost-in-libreoffice-pdf.pdf",
+    "expect": "allow",
+    "where": "labelled Word file exported to PDF by LibreOffice, which does not copy the label",
+    "note": "known gap: the label is no longer in the file",
+    "gap": true
+  }
+]

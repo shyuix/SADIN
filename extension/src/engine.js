@@ -23,7 +23,7 @@
   // (see managed_schema.json) or the policy server.
   // ---------------------------------------------------------------------------
   var DEFAULT_POLICY = {
-    version: "0.4.0",
+    version: "0.4.1",
     // Organisation-specific identifiers. Example values only.
     orgDomains: ["corp.example.sa", "example.sa"],
     orgPublicCidrs: ["203.0.113.0/24"],
@@ -106,6 +106,23 @@
       if (c === 0x066B) return ".";
       return String.fromCharCode(48 + (c >= 0x06F0 ? c - 0x06F0 : c - 0x0660));
     });
+  }
+  // Characters that are not visible and carry no meaning for matching: zero-width spaces and
+  // joiners, direction marks and embeddings (common in Arabic text copied from Word, web pages
+  // and chat apps), the soft hyphen, the byte-order mark, and the Arabic tatweel that stretches
+  // a word ("ســري"). They are removed before matching. `map[i]` is the offset in the original
+  // text of character i of the stripped text, so findings can be moved back onto the original.
+  var INVISIBLE = /[\u00AD\u0640\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u2069\uFEFF]/;
+  function stripInvisible(t) {
+    if (!INVISIBLE.test(t)) return null;                 // nothing to strip: the usual case
+    var out = "", map = [];
+    for (var i = 0; i < t.length; i++) {
+      if (INVISIBLE.test(t.charAt(i))) continue;
+      map.push(i);
+      out += t.charAt(i);
+    }
+    map.push(t.length);
+    return { text: out, map: map };
   }
   // Arabic word that tolerates optional diacritics (tashkeel) between letters
   var DIA = "[\\u064B-\\u0652\\u0670]*";
@@ -321,6 +338,8 @@
     if (typeof text !== "string" || text.length === 0) return result(text || "", [], policy, t0);
 
     var src = normalizeDigits(text);
+    var stripped = stripInvisible(src);
+    if (stripped) src = stripped.text;
     for (var i = 0; i < detectors.length; i++) {
       var det = detectors[i];
       det.re.lastIndex = 0;
@@ -353,6 +372,17 @@
           start: start, end: start + value.length,
           redact: det.redact !== false
         });
+      }
+    }
+    if (stripped) {
+      // move every span back onto the original text; invisible characters inside a value are
+      // covered by its span, so they are redacted with it
+      for (var k = 0; k < findings.length; k++) {
+        var f = findings[k];
+        if (f.end <= f.start) continue;
+        var last = stripped.map[f.end - 1];
+        f.start = stripped.map[f.start];
+        f.end = last + 1;
       }
     }
     findings = resolveOverlaps(findings);

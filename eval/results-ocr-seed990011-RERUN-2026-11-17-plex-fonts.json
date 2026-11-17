@@ -1,0 +1,212 @@
+{
+  "images": 20,
+  "seededValues": 72,
+  "valuesMasked": 46,
+  "maskRecall": 0.6388888888888888,
+  "readableAfterMasking": 0,
+  "classifiedImages": 8,
+  "classifiedBlocked": 7,
+  "nonClassifiedWronglyBlocked": 0,
+  "latencyMs": {
+    "median": 674,
+    "max": 898
+  },
+  "results": [
+    {
+      "file": "case01-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 8,
+      "missed": [
+        "172.16.172.135 (covered 79%)",
+        "dc03 (covered 79%)",
+        "192.168.69.73 (covered 79%)",
+        "dc04 (covered 79%)",
+        "10.64.242.235 (covered 0%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case02-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case03-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "EMP-456130 (covered 79%)",
+        "EMP-578458 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case04-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case05-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case06-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [
+        "10.80.187.120 (covered 79%)",
+        "172.31.240.154 (covered 79%)",
+        "srv-db-05 (covered 79%)",
+        "192.168.102.98 (covered 79%)",
+        "dc08 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case07-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case08-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "EMP-815345 (covered 79%)",
+        "EMP-708578 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case09-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case10-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case11-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 9,
+      "missed": [
+        "172.28.222.207 (covered 79%)",
+        "192.168.78.18 (covered 79%)",
+        "172.28.63.56 (covered 79%)",
+        "srv-db-01 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case12-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 6,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case13-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "EMP-805131 (covered 79%)",
+        "EMP-938466 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case14-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case15-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case16-soc-dashboard.png",
+      "kind": "soc-dashboard",
+      "action": "redact",
+      "boxes": 7,
+      "missed": [
+        "10.173.139.78 (covered 79%)",
+        "172.17.141.132 (covered 0%)",
+        "192.168.81.161 (covered 79%)",
+        "dc01 (covered 0%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case17-router-terminal.png",
+      "kind": "router-terminal",
+      "action": "redact",
+      "boxes": 5,
+      "missed": [],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case18-hr-portal.png",
+      "kind": "hr-portal",
+      "action": "redact",
+      "boxes": 4,
+      "missed": [
+        "EMP-655974 (covered 79%)",
+        "EMP-559520 (covered 79%)"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case19-arabic-memo-stamp.png",
+      "kind": "arabic-memo-stamp",
+      "action": "allow",
+      "boxes": 0,
+      "missed": [
+        "stamp:سري"
+      ],
+      "leakedAfterMask": []
+    },
+    {
+      "file": "case20-arabic-memo-field.png",
+      "kind": "arabic-memo-field",
+      "action": "block",
+      "boxes": 2,
+      "missed": [],
+      "leakedAfterMask": []
+    }
+  ]
+}

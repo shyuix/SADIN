@@ -1,0 +1,19 @@
+{
+  "name": "sadin",
+  "version": "0.7.0",
+  "private": true,
+  "description": "SADIN: protective middleware between employees and AI tools. The extension and the inspection service have no npm dependencies; the packages below are used by the tests only.",
+  "scripts": {
+    "server": "node server/server.js",
+    "demo": "node demo/serve.js",
+    "test": "node eval/run.js --quiet && node eval/run.js --holdout --quiet && node eval/run.js --set=arabic-dev --quiet && node eval/run.js --set=arabic-holdout --quiet && node eval/robustness.js && node server/integrity.js --check && node eval/tamper/server-test.js && node eval/server-hardening-test.js",
+    "test:files": "node eval/files-eval.js",
+    "test:browser": "node eval/e2e-audit.js",
+    "integrity": "node server/integrity.js"
+  },
+  "engines": { "node": ">=18" },
+  "devDependencies": {
+    "playwright": "^1.50.0",
+    "sharp": "^0.33.0"
+  }
+}

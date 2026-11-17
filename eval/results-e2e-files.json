@@ -1,0 +1,120 @@
+{
+ "date": "2026-11-17",
+ "serverDown": false,
+ "cases": 14,
+ "ok": 14,
+ "rows": [
+  {
+   "file": "p12-clean-english-libreoffice.pdf",
+   "what": "clean PDF",
+   "expected": "reaches the page",
+   "got": "reaches the page",
+   "ok": true,
+   "ms": 1109
+  },
+  {
+   "file": "p13-clean-arabic-libreoffice.pdf",
+   "what": "clean Arabic PDF",
+   "expected": "reaches the page",
+   "got": "reaches the page",
+   "ok": true,
+   "ms": 268
+  },
+  {
+   "file": "d16-clean-arabic.docx",
+   "what": "clean Arabic Word file",
+   "expected": "reaches the page",
+   "got": "reaches the page",
+   "ok": true,
+   "ms": 276
+  },
+  {
+   "file": "p32-scanned-clean.pdf",
+   "what": "clean scanned PDF",
+   "expected": "reaches the page",
+   "got": "reaches the page",
+   "ok": true,
+   "ms": 528
+  },
+  {
+   "file": "p01-body-english-libreoffice.pdf",
+   "what": "PDF with a database password",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "p02-body-arabic-rtl-libreoffice.pdf",
+   "what": "Arabic PDF with a server address and password",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d08-comment.docx",
+   "what": "Word file with a password in a review comment",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "p30-scanned-english.pdf",
+   "what": "scanned PDF with a password",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "p50-password-protected.pdf",
+   "what": "password-protected PDF",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d19-embedded-object.docx",
+   "what": "Word file with an embedded spreadsheet",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d40-label-restricted.docx",
+   "what": "harmless Word file labelled Restricted",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d41-label-arabic-top-secret.docx",
+   "what": "harmless Word file with an Arabic Top Secret label",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "p60-label-secret.pdf",
+   "what": "harmless PDF labelled Secret",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d45-label-public.docx",
+   "what": "harmless Word file labelled Public",
+   "expected": "reaches the page",
+   "got": "reaches the page",
+   "ok": true,
+   "ms": 266
+  }
+ ]
+}

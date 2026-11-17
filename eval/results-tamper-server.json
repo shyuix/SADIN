@@ -1,0 +1,123 @@
+{
+ "date": "2026-11-17T11:04:51.979Z",
+ "extensionVersion": "0.7.0",
+ "graceSeconds": 20,
+ "passed": 19,
+ "total": 19,
+ "rows": [
+  {
+   "n": "S1",
+   "check": "heartbeat without the token is refused",
+   "result": "PASS",
+   "observed": "HTTP 401"
+  },
+  {
+   "n": "S2",
+   "check": "alerts without the token are refused",
+   "result": "PASS",
+   "observed": "HTTP 401"
+  },
+  {
+   "n": "S3",
+   "check": "a web page cannot read the device registry",
+   "result": "PASS",
+   "observed": "HTTP 403"
+  },
+  {
+   "n": "S4",
+   "check": "heartbeat without a device name is rejected",
+   "result": "PASS",
+   "observed": "HTTP 400"
+  },
+  {
+   "n": "S5",
+   "check": "healthy force-installed device is registered with no alert",
+   "result": "PASS",
+   "observed": "state ok, files ok, alerts 0"
+  },
+  {
+   "n": "S6",
+   "check": "extension not installed by policy raises not-force-installed",
+   "result": "PASS",
+   "observed": "alerts 1, state not-forced"
+  },
+  {
+   "n": "S7",
+   "check": "the same condition is not alerted twice",
+   "result": "PASS",
+   "observed": "alerts 1"
+  },
+  {
+   "n": "S8",
+   "check": "wrong file fingerprint raises integrity-mismatch",
+   "result": "PASS",
+   "observed": "alerts 1, state modified"
+  },
+  {
+   "n": "S9",
+   "check": "state returns to ok when the fingerprint is right again",
+   "result": "PASS",
+   "observed": "state ok"
+  },
+  {
+   "n": "S10",
+   "check": "a version with no recorded fingerprint is marked unchecked, not alerted",
+   "result": "PASS",
+   "observed": "files unchecked"
+  },
+  {
+   "n": "S11",
+   "check": "silent device raises heartbeat-lost (grace 20 s)",
+   "result": "PASS",
+   "observed": "alert after 25 s, state silent"
+  },
+  {
+   "n": "S12",
+   "check": "next heartbeat raises heartbeat-restored",
+   "result": "PASS",
+   "observed": "alerts 1, state ok"
+  },
+  {
+   "n": "S13",
+   "check": "uninstall address with a wrong key is ignored",
+   "result": "PASS",
+   "observed": "alerts 0"
+  },
+  {
+   "n": "S14",
+   "check": "uninstall address with the right key raises extension-uninstalled",
+   "result": "PASS",
+   "observed": "alerts 1, state uninstalled"
+  },
+  {
+   "n": "S15",
+   "check": "line breaks in a device or user name cannot forge an alert line",
+   "result": "PASS",
+   "observed": "10 lines, 10 alerts"
+  },
+  {
+   "n": "S16",
+   "check": "alerts export as CEF, one line each",
+   "result": "PASS",
+   "observed": "10 CEF lines"
+  },
+  {
+   "n": "S17",
+   "check": "admin page is served and holds no data itself",
+   "result": "PASS",
+   "observed": "HTTP 200"
+  },
+  {
+   "n": "S18",
+   "check": "every alert was posted to the webhook",
+   "result": "PASS",
+   "observed": "10 of 10 alerts received"
+  },
+  {
+   "n": "S19",
+   "check": "device registry is written to disk",
+   "result": "PASS",
+   "observed": "7 devices"
+  }
+ ]
+}

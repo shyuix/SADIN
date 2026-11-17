@@ -1,0 +1,18 @@
+{
+  "ExtensionInstallForcelist": ["<EXTENSION_ID>;https://sadin.corp.example.sa/extension/update.xml"],
+  "IncognitoModeAvailability": 1,
+  "BrowserGuestModeEnabled": false,
+  "BrowserAddPersonEnabled": false,
+  "DeveloperToolsAvailability": 2,
+  "3rdparty": {
+    "extensions": {
+      "<EXTENSION_ID>": {
+        "serverUrl": "https://sadin.corp.example.sa",
+        "serverToken": "<SADIN_TOKEN>",
+        "deviceId": "<DEVICE_NAME>",
+        "userEmail": "<EMPLOYEE_WORK_EMAIL>",
+        "heartbeatSeconds": 60
+      }
+    }
+  }
+}

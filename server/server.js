@@ -8,14 +8,25 @@
  *   GET  /policy               -> policy JSON (policy.json next to this file, if present)
  *   POST /inspect/text         -> body: { text }            -> scan result (no values echoed)
  *   POST /inspect/image        -> body: raw image bytes      -> { action, categories, boxes[] }
+ *   POST /inspect/file         -> body: raw PDF or .docx     -> { inspected, action, categories, reason }
  *   POST /events               -> body: event JSON           -> appended to events.jsonl
  *   GET  /events.cef           -> events as CEF lines for SIEM import
+ *
+ * Tamper resistance (see docs/TAMPER-RESISTANCE.md):
+ *   POST /heartbeat            -> body: { device, user, version, installType, integrity }
+ *   GET  /devices              -> device registry with the current state of each device
+ *   GET  /alerts               -> administrator alerts, newest first
+ *   GET  /alerts.cef           -> the same alerts as CEF lines
+ *   GET  /uninstalled?device=&k= -> opened by the browser when the extension is removed
+ *   GET  /admin                -> administrator page (devices and alerts)
+ * Run "node server/integrity.js" after every extension release so heartbeats can be checked.
  *
  * Only the SADIN extension may call it from a browser (see access control below);
  * set SADIN_TOKEN in deployment.
  *
  * Requires: Node 18+, Tesseract 5 with the "ara" and "eng" language data.
  * Optional: ImageMagick "convert" (upscales small screenshots before OCR).
+ * For /inspect/file: poppler-utils (pdfinfo, pdftotext, pdfimages, pdftoppm). See files.js.
  */
 "use strict";
 const http = require("http");
@@ -25,6 +36,7 @@ const path = require("path");
 const { execFile } = require("child_process");
 const crypto = require("crypto");
 const E = require("../extension/src/engine.js");
+const F = require("./files.js");
 
 const PORT = parseInt(process.env.SADIN_PORT || "8787", 10);
 const HOST = process.env.SADIN_HOST || "127.0.0.1";
@@ -32,6 +44,15 @@ const LANGS = process.env.SADIN_OCR_LANGS || "ara+eng";
 const EVENTS = path.join(__dirname, "events.jsonl");
 const POLICY_FILE = path.join(__dirname, "policy.json");
 const MAX_BODY = 25 * 1024 * 1024;
+const DATA_DIR = process.env.SADIN_DATA_DIR || __dirname;      // devices.json and alerts.jsonl
+const DEVICES_FILE = path.join(DATA_DIR, "devices.json");
+const ALERTS_FILE = path.join(DATA_DIR, "alerts.jsonl");
+const INTEGRITY_FILE = process.env.SADIN_INTEGRITY_FILE || path.join(__dirname, "integrity.json");
+const ADMIN_PAGE = path.join(__dirname, "admin.html");
+// a device that has not reported for this long is flagged (seconds, minimum 20)
+const GRACE_S = Math.max(20, parseInt(process.env.SADIN_HEARTBEAT_GRACE_S || "180", 10) || 180);
+// optional: every alert is also posted here as JSON (mail relay, Teams, SOAR)
+const ALERT_WEBHOOK = process.env.SADIN_ALERT_WEBHOOK || "";
 
 /*
  * Access control. Browsers attach an Origin header to cross-site requests, so a web page the
@@ -54,6 +75,13 @@ function originAllowed(origin) {
   const m = /^chrome-extension:\/\/([a-p]{32})$/.exec(origin);
   if (!m) return false;
   return EXT_IDS.length === 0 || EXT_IDS.includes(m[1]);
+}
+// Without a token the service is in demo mode and must only answer on this machine. Checking
+// the Host header stops a web page that re-points its own name at 127.0.0.1 (DNS rebinding):
+// the browser would treat such requests as same-site and send no Origin header.
+const LOOPBACK = /^(127\.0\.0\.1|localhost|\[::1\])(:\d+)?$/i;
+function hostAllowed(req) {
+  return !!TOKEN || LOOPBACK.test(String(req.headers.host || ""));
 }
 function tokenOk(req) {
   if (!TOKEN) return true;
@@ -78,14 +106,14 @@ let HAS_CONVERT = false;
 run("convert", ["-version"]).then(() => { HAS_CONVERT = true; }).catch(() => {});
 
 /* ---------- OCR ---------- */
-async function ocr(buf) {
+async function ocr(buf, opts) {
   const id = crypto.randomBytes(6).toString("hex");
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sadin-"));
   const src = path.join(dir, id + ".img");
   fs.writeFileSync(src, buf);
   let input = src, scale = 1;
   try {
-    if (HAS_CONVERT) {
+    if (HAS_CONVERT && !(opts && opts.upscale === false)) {
       // small UI text OCRs far better at 2x
       const up = path.join(dir, id + ".png");
       await run("convert", [src, "-resize", "200%", "-colorspace", "Gray", up]);
@@ -222,6 +250,103 @@ function toCef(e) {
   return `CEF:0|SADIN|SADIN Middleware|${hdr(E.DEFAULT_POLICY.version)}|AI-${act}|AI request ${act}|${sev}|rt=${Date.parse(e.time)} suser=${esc(e.user)} dhost=${esc(e.tool)} act=${esc(e.action)} cs1Label=categories cs1=${esc(Object.keys(e.categories || {}).join(","))} cs2Label=channel cs2=${esc(e.channel)} cn1Label=redactions cn1=${Number(e.placeholders) || 0}`;
 }
 
+/* ---------- Tamper resistance: device registry and administrator alerts ---------- */
+const ALERT_TYPES = {
+  "heartbeat-lost":        { severity: 8, text: "The device has stopped reporting. The browser may be closed or the device off, or the extension was disabled or removed. Check the device." },
+  "heartbeat-restored":    { severity: 3, text: "The device is reporting again." },
+  "not-force-installed":   { severity: 7, text: "The extension on this device was not installed by policy, so the user can switch it off." },
+  "integrity-mismatch":    { severity: 9, text: "The extension's files on this device differ from the released version (edited or deleted)." },
+  "extension-uninstalled": { severity: 9, text: "The browser reported that the extension was removed from this device." }
+};
+const INSTALL_TYPES = ["admin", "normal", "development", "sideload", "other"];
+
+let devices = {};
+try { devices = JSON.parse(fs.readFileSync(DEVICES_FILE, "utf8")); } catch (e) { devices = {}; }
+function saveDevices() {
+  try { fs.writeFileSync(DEVICES_FILE, JSON.stringify(devices, null, 1)); } catch (e) { /* registry stays in memory */ }
+}
+// expected code fingerprint per extension version, written by "node server/integrity.js"
+function expectedIntegrity(version) {
+  try { return JSON.parse(fs.readFileSync(INTEGRITY_FILE, "utf8"))[version] || null; } catch (e) { return null; }
+}
+function stateOf(d) {
+  return d.flags.uninstalled ? "uninstalled" : d.flags.lost ? "silent" : d.flags.integrity ? "modified" : d.flags.notForced ? "not-forced" : "ok";
+}
+function raiseAlert(type, d, detail) {
+  const a = {
+    time: new Date().toISOString(), type, severity: ALERT_TYPES[type].severity,
+    device: d.device, user: d.user, text: ALERT_TYPES[type].text, detail: detail || undefined
+  };
+  try { fs.appendFileSync(ALERTS_FILE, JSON.stringify(a) + "\n"); } catch (e) { /* still printed below */ }
+  console.log(`[alert] ${a.type} device=${a.device} user=${a.user}`);
+  if (ALERT_WEBHOOK) {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 5000);
+    fetch(ALERT_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(a), signal: ctl.signal })
+      .catch(e => console.log("[alert] webhook failed: " + (e.message || e)))
+      .finally(() => clearTimeout(t));
+  }
+  return a;
+}
+function readAlerts() {
+  if (!fs.existsSync(ALERTS_FILE)) return [];
+  return fs.readFileSync(ALERTS_FILE, "utf8").trim().split("\n").filter(Boolean).map(l => JSON.parse(l)).reverse();
+}
+function heartbeat(hb) {
+  hb = hb && typeof hb === "object" ? hb : {};
+  const device = oneLine(hb.device, 120).trim();
+  if (!device) return null;
+  const d = devices[device] || (devices[device] = { device, firstSeen: new Date().toISOString(), flags: {} });
+  d.user = oneLine(hb.user || "unknown", 120);
+  d.version = /^[0-9.]{1,20}$/.test(String(hb.version)) ? String(hb.version) : "unknown";
+  d.installType = INSTALL_TYPES.includes(hb.installType) ? hb.installType : "other";
+  d.integrity = oneLine(hb.integrity, 64).replace(/[^0-9a-f]/g, "");
+  d.browser = oneLine(hb.browser, 60);
+  d.lastSeen = new Date().toISOString();
+  d.beats = (d.beats || 0) + 1;
+  if (d.flags.lost || d.flags.uninstalled) {
+    d.flags.lost = false; d.flags.uninstalled = false;
+    raiseAlert("heartbeat-restored", d);
+  }
+  if (d.installType !== "admin") {
+    if (!d.flags.notForced) { d.flags.notForced = true; raiseAlert("not-force-installed", d, "install type: " + d.installType); }
+  } else d.flags.notForced = false;
+  const want = expectedIntegrity(d.version);
+  d.integrityStatus = !want ? "unchecked" : want === d.integrity ? "ok" : "mismatch";
+  if (d.integrityStatus === "mismatch") {
+    if (!d.flags.integrity) { d.flags.integrity = true; raiseAlert("integrity-mismatch", d, "version " + d.version); }
+  } else d.flags.integrity = false;
+  saveDevices();
+  return { ok: true, state: stateOf(d), integrity: d.integrityStatus, graceSeconds: GRACE_S };
+}
+// called on a timer: a registered device that has gone quiet is flagged once
+function sweep(now) {
+  now = now || Date.now();
+  let changed = false;
+  for (const d of Object.values(devices)) {
+    if (d.flags.lost || d.flags.uninstalled || !d.lastSeen) continue;
+    const quiet = Math.round((now - Date.parse(d.lastSeen)) / 1000);
+    if (quiet > GRACE_S) { d.flags.lost = true; changed = true; raiseAlert("heartbeat-lost", d, "no heartbeat for " + quiet + " s"); }
+  }
+  if (changed) saveDevices();
+}
+// The uninstall address cannot carry the token header, so it carries a key derived from it.
+function uninstallKey(device) {
+  return crypto.createHash("sha256").update(TOKEN + "|" + device).digest("hex").slice(0, 16);
+}
+function uninstalled(device, k) {
+  device = oneLine(device, 120).trim();
+  const d = devices[device];
+  if (!d || String(k) !== uninstallKey(device)) return false;
+  if (!d.flags.uninstalled) { d.flags.uninstalled = true; raiseAlert("extension-uninstalled", d); saveDevices(); }
+  return true;
+}
+function alertToCef(a) {
+  const hdr = v => oneLine(v, 64).replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
+  const esc = v => oneLine(v, 500).replace(/\\/g, "\\\\").replace(/=/g, "\\=");
+  return `CEF:0|SADIN|SADIN Middleware|${hdr(E.DEFAULT_POLICY.version)}|TAMPER-${hdr(a.type)}|${hdr(a.type)}|${Number(a.severity) || 1}|rt=${Date.parse(a.time)} suser=${esc(a.user)} shost=${esc(a.device)} msg=${esc(a.text)}`;
+}
+
 /* ---------- HTTP ---------- */
 function send(res, code, obj, type) {
   const body = type ? obj : JSON.stringify(obj);
@@ -253,9 +378,30 @@ function readBody(req) {
 const server = http.createServer(async (req, res) => {
   try {
     if (!originAllowed(req.headers.origin)) return send(res, 403, { error: "origin not allowed" });
+    if (!hostAllowed(req)) return send(res, 403, { error: "host not allowed without SADIN_TOKEN" });
     if (req.method === "OPTIONS") return send(res, 204, "", "text/plain");
     const url = req.url.split("?")[0];
+    // the admin page itself holds no data (it asks for the token and then calls /devices and /alerts)
+    if (req.method === "GET" && url === "/admin") {
+      return send(res, 200, fs.readFileSync(ADMIN_PAGE, "utf8"), "text/html; charset=utf-8");
+    }
+    if (req.method === "GET" && url === "/uninstalled") {
+      const q = new URL(req.url, "http://x").searchParams;
+      uninstalled(q.get("device") || "", q.get("k") || "");
+      return send(res, 200, "SADIN was removed from this browser. Your administrator has been notified.\n", "text/plain; charset=utf-8");
+    }
     if (url !== "/health" && !tokenOk(req)) return send(res, 401, { error: "missing or wrong X-SADIN-Token" });
+    if (req.method === "POST" && url === "/heartbeat") {
+      const r = heartbeat(JSON.parse((await readBody(req)).toString("utf8") || "{}"));
+      return r ? send(res, 200, r) : send(res, 400, { error: "device is required" });
+    }
+    if (req.method === "GET" && url === "/devices") {
+      return send(res, 200, Object.values(devices).map(d => Object.assign({}, d, { state: stateOf(d), flags: undefined })));
+    }
+    if (req.method === "GET" && url === "/alerts") return send(res, 200, readAlerts());
+    if (req.method === "GET" && url === "/alerts.cef") {
+      return send(res, 200, readAlerts().reverse().map(alertToCef).join("\n") + "\n", "text/plain; charset=utf-8");
+    }
     if (req.method === "GET" && url === "/health") return send(res, 200, { ok: true, ocr: LANGS, engine: E.DEFAULT_POLICY.version });
     if (req.method === "GET" && url === "/policy") return send(res, 200, loadPolicy() || E.DEFAULT_POLICY);
     if (req.method === "POST" && url === "/inspect/text") {
@@ -273,6 +419,12 @@ const server = http.createServer(async (req, res) => {
       r.ms = Date.now() - t0;
       return send(res, 200, r);
     }
+    if (req.method === "POST" && url === "/inspect/file") {
+      const buf = await readBody(req);
+      if (!buf.length) return send(res, 400, { error: "empty body" });
+      // extracted text is never returned: only the decision, the categories and counters
+      return send(res, 200, await F.inspectFile(buf, loadPolicy(), { ocr, inspectWords }));
+    }
     if (req.method === "POST" && url === "/events") {
       const ev = JSON.parse((await readBody(req)).toString("utf8") || "{}");
       return send(res, 200, appendEvent(ev));
@@ -288,6 +440,11 @@ const server = http.createServer(async (req, res) => {
 });
 
 if (require.main === module) {
+  if (!TOKEN && !/^(127\.0\.0\.1|localhost|::1)$/i.test(HOST)) {
+    console.error("SADIN_TOKEN is required when the service listens on a network address (SADIN_HOST=" + HOST + ").");
+    process.exit(1);
+  }
   server.listen(PORT, HOST, () => console.log(`SADIN inspection server on http://${HOST}:${PORT}  (OCR: ${LANGS})`));
+  setInterval(sweep, Math.min(10000, GRACE_S * 250)).unref();   // heartbeat watchdog
 }
-module.exports = { ocr, inspectWords, server };
+module.exports = { ocr, inspectWords, server, heartbeat, sweep };

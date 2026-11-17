@@ -1,0 +1,24 @@
+{
+ "date": "2026-11-17",
+ "serverDown": true,
+ "cases": 2,
+ "ok": 2,
+ "rows": [
+  {
+   "file": "p12-clean-english-libreoffice.pdf",
+   "what": "clean PDF, inspection server stopped",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  },
+  {
+   "file": "d15-clean-english.docx",
+   "what": "clean Word file, inspection server stopped",
+   "expected": "held back",
+   "got": "held back",
+   "ok": true,
+   "ms": null
+  }
+ ]
+}

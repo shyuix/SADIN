@@ -1,8 +1,8 @@
 {
   "set": "corpus",
-  "engineVersion": "0.4.0",
-  "runAt": "2026-09-24T20:01:13.202Z",
-  "node": "v22.22.2",
+  "engineVersion": "0.4.1",
+  "runAt": "2026-11-17T11:04:20.923Z",
+  "node": "v22.23.4",
   "corpus": {
     "sensitiveMessages": 111,
     "sensitiveItems": 155,
@@ -53,12 +53,12 @@
     "rate": 0
   },
   "latencyMs": {
-    "median": 0.021920000000001494,
-    "p95": 0.11452799999999996,
-    "max": 4.188095000000004
+    "median": 0.028481999999996788,
+    "p95": 0.10501999999999612,
+    "max": 0.9513310000000033
   },
   "latency1MB": {
-    "medianMs": 220.73182699999995,
+    "medianMs": 219.39122900000007,
     "bytes": 1000099
   },
   "perLanguage": {

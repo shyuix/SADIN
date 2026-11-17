@@ -43,8 +43,8 @@ flowchart TB
 
 | Enforcement point | Covers | State |
 |---|---|---|
-| **Agent: browser extension** | Typed, pasted and dragged text, file uploads and pasted or uploaded images in any AI chat site on a managed Chrome or Edge browser | Built and tested |
-| **Agent: endpoint agent** | Desktop AI apps, IDE assistants, the clipboard, Office and PDF parsing, device posture | Designed, Phase 2 |
+| **Agent: browser extension** | Typed, pasted and dragged text, file uploads (text formats, PDF, Word) and pasted or uploaded images on the configured AI chat sites in a managed browser. Force-installed and locked by policy, with a heartbeat that tells the administrator when protection stops ([TAMPER-RESISTANCE.md](TAMPER-RESISTANCE.md)) | Built and tested on Chrome; Edge untested |
+| **Agent: endpoint agent** | Desktop AI apps, IDE assistants, the clipboard, redaction inside documents, Excel and PowerPoint, device posture | Designed, Phase 2 |
 | **Identity** | AI access only through the work account on an enterprise AI tenant; company data only on compliant devices; personal AI accounts blocked on work devices | Designed, Phase 3 |
 | **Gateway** | Sessions from unmanaged devices routed through a reverse proxy that applies the same policy | Designed, Phase 4 |
 
@@ -59,36 +59,40 @@ flowchart LR
     subgraph Browser["Managed browser"]
         CS["content.js<br/>hooks paste, drop,<br/>file input, send"]
         EN["engine.js<br/>detect + redact"]
-        BG["background.js<br/>policy merge, image relay,<br/>decision log"]
+        BG["background.js<br/>policy merge, image relay,<br/>decision log, heartbeat"]
         PU["popup<br/>log view, CEF export"]
         CS --> EN
         CS <--> BG
         PU --> BG
     end
     subgraph Server["Organisation's server"]
-        SV["server.js<br/>OCR, policy, events, CEF"]
+        SV["server.js<br/>OCR, policy, events, CEF,<br/>device registry, alerts"]
         EN2["engine.js<br/>(same file)"]
         SV --> EN2
     end
-    BG <-- "images, policy, events<br/>X-SADIN-Token" --> SV
+    BG <-- "images, files, policy, events,<br/>heartbeat (X-SADIN-Token)" --> SV
     SV --> SIEM["SIEM"]
+    SV --> ADM["Administrator<br/>/admin page, webhook"]
 
     classDef comp fill:#0B2134,stroke:#0B2134,color:#F6F2EA
     classDef ext fill:#F6F2EA,stroke:#0B2134,color:#0B2134
     class CS,EN,BG,PU,SV,EN2 comp
-    class SIEM ext
+    class SIEM,ADM ext
     style Browser fill:none,stroke:#7A8FA6,stroke-width:1px
     style Server fill:none,stroke:#7A8FA6,stroke-width:1px
 ```
 
 | Component | File | Role |
 |---|---|---|
-| Content script | `extension/src/content.js` | Runs inside AI tool pages. Intercepts paste, drop, file-input changes and send (Enter or the send button), asks the engine, then lets the sanitised content through, blocks it, or shows a notice. |
+| Content script | `extension/src/content.js` | Runs inside AI tool pages. Intercepts paste, drop, file-input changes and send (Enter or the send button), asks the engine, then lets the sanitised content through, blocks it, or shows a notice. A file is routed by its first bytes, not its name, so a renamed PDF still goes to the inspection service. |
 | Detection engine | `extension/src/engine.js` | 56 detectors across five data classes, Arabic and English. Returns findings (class, detector, character span) and a redacted copy. Pure JavaScript, no dependencies; the extension, the server and the tests run the same file. |
-| Background worker | `extension/src/background.js` | Merges the policy (built-in defaults, then the policy server, then Chrome managed storage set by IT, which wins). Relays images to the inspection service. Keeps the last 500 decisions locally and forwards each one to the server. |
+| Background worker | `extension/src/background.js` | Merges the policy (built-in defaults, then the policy server, then Chrome managed storage set by IT, which wins). Relays images to the inspection service. Keeps the last 500 decisions locally and forwards each one to the server. Sends the heartbeat: device name, install type and a fingerprint of the extension's files. |
 | Popup | `extension/popup/` | Shows server status and recent decisions; exports the local log as CEF. |
-| Managed settings | `extension/managed_schema.json` | The settings IT pushes by policy: `serverUrl`, `serverToken`, `userEmail`, org domains and ranges, per-class actions, fail-closed behaviour. |
+| Managed settings | `extension/managed_schema.json` | The settings IT pushes by policy: `serverUrl`, `serverToken`, `userEmail`, `deviceId`, `heartbeatSeconds`, org domains and ranges, per-class actions, fail-closed behaviour. |
 | Inspection service | `server/server.js` | Arabic and English OCR with Tesseract, a second pass for coloured classification stamps, image masking coordinates, `/policy`, `/events`, `/events.cef`. Node only, no npm dependencies. |
+| Document inspection | `server/files.js`, `server/labels.js` | Text extraction from PDF and Word files and reading of sensitivity labels (v0.6.0). |
+| Tamper resistance | `server/server.js`, `server/integrity.js`, `server/admin.html` | Device registry, heartbeat watchdog, the five administrator alerts, `/devices`, `/alerts`, `/alerts.cef`, the `/admin` page, optional webhook; `integrity.js` records the expected fingerprint of a release (v0.7.0). |
+| Policy templates | `deploy/policies/` | Browser policy files that force-install the extension and switch off Incognito, guest mode, new profiles and developer tools. |
 | Test page | `demo/` | A local page that imitates an AI chat and shows exactly what the vendor would receive. |
 
 ## Request lifecycle
@@ -137,8 +141,33 @@ without the employee seeing what changed.
 
 Text formats (about forty extensions, including `.env`, `.conf`, `.json`, `.yaml`, `.log`,
 `.sql`, `.pem` and source code) are read and redacted in the browser, and a sanitised copy replaces the original in the
-upload. Formats the prototype cannot parse yet (PDF, Office, archives) follow the
-`uninspectableFiles` policy, which is `block` by default.
+upload.
+
+PDF and Word (.docx) files go to the inspection service (`POST /inspect/file`, code in
+`server/files.js`), which recognises the format from the content, not the file name:
+
+1. PDF: `pdftotext` gives the text layer; `qpdf` gives form-field values, comments, link
+   targets and document properties; pages with pictures, and PDFs with no text layer, are
+   rendered and read with OCR.
+2. Word: the document is unzipped in memory and the body, tables, text boxes, headers, footers,
+   notes, comments, tracked deletions, link targets, properties and chart labels are read;
+   embedded pictures go through OCR. Parts are allow-listed, so an unknown part stops the file.
+3. The sensitivity label, if the file carries one, is read from its metadata
+   (`server/labels.js`): Purview `MSIP_Label_<GUID>_...` properties, the Word label list, and
+   plain classification properties. The label's name or GUID is mapped to an NDMO level and
+   the level's action applies (block for everything but Public by default; a label with no
+   rule is blocked).
+4. The text goes through the same engine; content can only make the outcome stricter than the
+   label did. The service answers with the decision, the data classes, the label level and
+   counters, never the text. Temporary files are deleted.
+5. A document is not redacted in place yet: if the engine would redact or block, the whole
+   file is held back and the employee is told why. A clean file is passed on unchanged.
+6. A file that cannot be fully read (encrypted, damaged, over 60 pages, more than 8 scanned
+   pages or pictures, attachments, embedded objects, macros) is reported as uninspectable.
+   If the service is unreachable, the file is blocked (fail closed).
+
+Uninspectable files and formats the prototype cannot parse (Excel, PowerPoint, legacy Office,
+archives) follow the `uninspectableFiles` policy, which is `block` by default.
 
 ## Policy
 
