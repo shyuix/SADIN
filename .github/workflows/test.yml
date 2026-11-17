@@ -1,0 +1,23 @@
+name: test
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Frozen test sets are unchanged
+        run: sha256sum -c eval/FROZEN-arabic.sha256 eval/FROZEN-english.sha256
+      - name: Text sets, robustness, integrity, tamper and hardening tests
+        run: npm test

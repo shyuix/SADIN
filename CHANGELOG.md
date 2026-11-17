@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+Repository checks only; the extension and the inspection service are unchanged.
+
+- `npm test` now fails when a text set scores below the published numbers
+  (`eval/check-results.js`). Before, `eval/run.js` printed and recorded its results but a
+  regression did not stop the run.
+- `eval/version-check.js`: the version in `package.json`, the manifest, `integrity.json`, the
+  README badges and this file must agree, and the integrity file list in `background.js` must
+  equal the one in `server/integrity.js`.
+- `eval/FROZEN-english.sha256`: a checksum for the English held-out set, as the Arabic sets
+  already had. It was written on 17 November 2026 from the file as published in v0.7.0, so
+  it guards against changes from now on; it does not prove anything about earlier dates.
+- A pre-commit hook (`npm run hooks` to enable it) refuses commits that change a frozen test
+  set or a recorded first-run result, and checks `integrity.json` when extension code changes.
+- GitHub Actions runs `npm test` on Node 18, 20 and 22 on every push and pull request.
+- `npm version <x.y.z>` runs the tests, copies the version into the manifest and the README
+  badge, and regenerates `integrity.json` (`scripts/release.js`).
+- Dependabot configuration, a pull-request checklist and an `.editorconfig`. A compiled Python
+  file that had been committed by mistake was removed.
+
 ## 0.7.0 (17 November 2026, after the SAIF submission)
 
 **Tamper resistance and administrator alerts.**

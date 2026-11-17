@@ -1,0 +1,24 @@
+#!/bin/sh
+# Enable once per clone:  git config core.hooksPath .githooks
+#
+# 1. The frozen evaluation sets and the recorded first-run results must not change.
+# 2. When extension code is committed, server/integrity.json must match it.
+
+staged=$(git diff --cached --name-only)
+
+frozen='^eval/(holdout|arabic-holdout|arabic-dev)\.js$|^eval/FROZEN-|^eval/results-.*(FIRST-RUN|BASELINE|HELDOUT)'
+if echo "$staged" | grep -Eq "$frozen"; then
+  echo "pre-commit: a frozen evaluation file is staged:"
+  echo "$staged" | grep -E "$frozen" | sed 's/^/  /'
+  echo "These files are fixed (EVALUATION.md). Unstage them, or use --no-verify if the change is intended."
+  exit 1
+fi
+
+for f in eval/FROZEN-*.sha256; do
+  sha256sum -c --quiet "$f" || { echo "pre-commit: $f does not match"; exit 1; }
+done
+
+if echo "$staged" | grep -q '^extension/'; then
+  node server/integrity.js --check || exit 1
+  node eval/version-check.js > /dev/null || { node eval/version-check.js | grep FAIL; exit 1; }
+fi
