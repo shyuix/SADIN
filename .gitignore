@@ -4,3 +4,5 @@ server/events.jsonl
 .DS_Store
 server/devices.json
 server/alerts.jsonl
+__pycache__/
+*.pyc
