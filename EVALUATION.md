@@ -242,6 +242,7 @@ Tests: `eval/e2e-audit.js` in a real browser, 16 of 16 (faults 1, 2, 3, 4, 5 and
 | "top secret" in lower case inside a sentence | Passes | English markings are matched in capitals or as a labelled line |
 | A version number such as 10.2.30.4 | Redacted as an internal address (false positive) | The message still goes |
 | Everyday Arabic "سري جداً" | Blocked as a classification level (false positive) | The phrase is also a real marking |
+| An English classification marking followed by a colon or an equals sign and more text: `TOP SECRET: minutes of the security committee` | Not blocked. An English marking is not matched when `:` or `=` and a value follow it, so that a configuration line such as `SECRET=...` is not taken for a classified document. With `SECRET` or `TOP SECRET` the next word is then read as a credential: the line becomes `TOP SECRET: [SECRET_1] of the security committee` and is passed on with the marking still in it. With `CONFIDENTIAL:` or `RESTRICTED:` and more text, the line passes unchanged | Found on 18 November 2026 while writing the README's "Try it" steps, and not fixed: the fix is in the detection engine, which is unchanged in this release. Not yet recorded in `eval/robustness.js`. The marking on its own line, `TOP SECRET minutes...` without the colon, `TOP SECRET - minutes...`, `Classification: TOP SECRET` and the Arabic `سري للغاية: ...` are blocked. The README example uses the form without the colon |
 | Text files in a legacy Arabic code page (Windows-1256) | Arabic keywords in them are not recognised; addresses, tokens and Latin-script keywords still are | Not built |
 | AI sites not in the manifest | Not covered at all | The list is eight sites; adding one is a one-line change that then needs testing on that site |
 | The live AI sites | Untested. Every browser test used the local test page | Needs accounts and a test plan per site; first task of a pilot |
@@ -274,7 +275,7 @@ Tests: `eval/e2e-audit.js` in a real browser, 16 of 16 (faults 1, 2, 3, 4, 5 and
 8. The screenshot results depend on the browser and fonts that draw the test images and on the OCR models installed. A re-run on another machine blocked 7 of 8 classified memos instead of 8 (section 5e).
 9. Tamper resistance was tested on Chrome on Linux only (section 5d). Edge has not been tested for any part of SADIN.
 10. No test has been run against a live AI site. All browser tests use the local test page, and only the eight sites in the manifest are covered at all (section 5f).
-11. The known gaps in section 5f: disguised values, passwords with no keyword, the bare word "سري", legacy Arabic text encodings.
+11. The known gaps in section 5f: disguised values, passwords with no keyword, the bare word "سري", legacy Arabic text encodings, and an English classification marking followed by a colon (`TOP SECRET: ...`), which is not blocked.
 12. Nothing stops a photograph of the screen taken with a personal phone. That is a policy and awareness matter; see [docs/THREAT-MODEL.md](docs/THREAT-MODEL.md).
 
 ## 8. Reproducing the results

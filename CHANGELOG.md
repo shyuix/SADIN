@@ -26,6 +26,9 @@ Repository checks and two small changes to the inspection service. The extension
   in Chrome, start the local test page and type one line to see a redaction, with a table of
   what works with the extension alone and what needs the inspection service. `EVALUATION.md`
   notes that the screenshot benchmark needs Node.js 20.9 or later.
+- Known gap added to `EVALUATION.md` (section 5f): an English classification marking followed
+  by a colon, such as `TOP SECRET: ...`, is not blocked; the line is redacted as if it held a
+  credential, or passes unchanged, and goes on. Not fixed in this release.
 
 - `npm test` now fails when a text set scores below the published numbers
   (`eval/check-results.js`). Before, `eval/run.js` printed and recorded its results but a
