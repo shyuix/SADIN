@@ -25,7 +25,8 @@
  * set SADIN_TOKEN in deployment.
  *
  * Requires: Node 18+, Tesseract 5 with the "ara" and "eng" language data.
- * Optional: ImageMagick "convert" (upscales small screenshots before OCR).
+ * For images: ImageMagick "convert". It upscales small screenshots before OCR and reads boxed
+ * classification stamps. Without it the service still runs, but stamps in images are not read.
  * For /inspect/file: poppler-utils (pdfinfo, pdftotext, pdfimages, pdftoppm). See files.js.
  */
 "use strict";
@@ -103,7 +104,9 @@ function run(cmd, args, opts) {
 }
 
 let HAS_CONVERT = false;
-run("convert", ["-version"]).then(() => { HAS_CONVERT = true; }).catch(() => {});
+run("convert", ["-version"]).then(() => { HAS_CONVERT = true; }).catch(() => {
+  if (require.main === module) console.warn("[warning] ImageMagick (convert) was not found. Images are still inspected, but screenshots are not upscaled and classification stamps in images are not read. Install ImageMagick on this machine.");
+});
 
 /* ---------- OCR ---------- */
 async function ocr(buf, opts) {
