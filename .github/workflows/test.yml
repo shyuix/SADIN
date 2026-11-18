@@ -41,4 +41,3 @@ jobs:
         run: node eval/ocr-eval.js
         env:
           SADIN_SEED: "990011"
-        continue-on-error: true
