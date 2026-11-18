@@ -435,7 +435,9 @@ const server = http.createServer(async (req, res) => {
     }
     send(res, 404, { error: "not found" });
   } catch (e) {
-    send(res, 500, { error: String(e.message || e) });
+    // the reason stays in the service log; the caller only learns that the request failed
+    console.error("[error] " + req.method + " " + String(req.url).split("?")[0] + ": " + ((e && (e.code || e.name)) || "error"));
+    send(res, 500, { error: "internal error" });
   }
 });
 
