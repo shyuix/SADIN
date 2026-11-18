@@ -20,4 +20,23 @@ jobs:
       - name: Frozen test sets are unchanged
         run: sha256sum -c eval/FROZEN-arabic.sha256 eval/FROZEN-english.sha256
       - name: Text sets, robustness, integrity, tamper and hardening tests
-        run: npm test
+        run: npm test 
+        
+  full:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: System tools for documents and OCR
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils qpdf tesseract-ocr tesseract-ocr-ara
+      - name: Install test dependencies and browser
+        run: npm install && npx playwright install --with-deps chromium
+      - name: Document tests
+        run: npm run test:files
+      - name: Browser tests
+        run: npm run test:browser
+      - name: Screenshot OCR evaluation
+        run: node eval/ocr-eval.js
+        continue-on-error: true
