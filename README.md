@@ -218,7 +218,7 @@ the next step. Method, raw outputs, bugs the tests found and limitations:
 ## Quick start
 
 Requirements: Node.js 18+, Chrome (Edge should work but is untested), and for image inspection Tesseract 5 with the
-`ara` and `eng` language data (ImageMagick optional). PDF and Word inspection also needs
+`ara` and `eng` language data and ImageMagick (the service runs without it, but then classification stamps in images are not read). PDF and Word inspection also needs
 `poppler-utils` and `qpdf`.
 
 ```bash
