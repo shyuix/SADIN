@@ -26,6 +26,11 @@ Repository checks and two small changes to the inspection service. The extension
 - `npm test` now fails when a text set scores below the published numbers
   (`eval/check-results.js`). Before, `eval/run.js` printed and recorded its results but a
   regression did not stop the run.
+- `eval/docs-check.js` compares thirty figures quoted in `README.md` and `EVALUATION.md` (text
+  sets, screenshots, documents, real-browser, audit and tamper tests) with the recorded
+  `eval/results-*.json` files, and `npm test` fails when one differs or when a quoted row is
+  reworded without updating the check. It only reads; no figure and no result file was changed
+  to add it.
 - `eval/version-check.js`: the version in `package.json`, the manifest, `integrity.json`, the
   README badges and this file must agree, and the integrity file list in `background.js` must
   equal the one in `server/integrity.js`.

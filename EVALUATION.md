@@ -287,6 +287,7 @@ node eval/run.js --set=arabic-dev     # Arabic development set
 node eval/run.js --set=arabic-holdout # Arabic held-out set
 sha256sum -c eval/FROZEN-arabic.sha256 eval/FROZEN-english.sha256
 node eval/check-results.js           # exit 1 if any of the four sets is below the published numbers
+node eval/docs-check.js              # exit 1 if a figure quoted in README.md or here differs from the result files
 
 # real-browser test (needs: node demo/serve.js running, and "npm install" for playwright)
 node eval/e2e-browser.js

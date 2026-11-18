@@ -6,7 +6,7 @@
   "scripts": {
     "server": "node server/server.js",
     "demo": "node demo/serve.js",
-    "test": "node eval/run.js --quiet && node eval/run.js --holdout --quiet && node eval/run.js --set=arabic-dev --quiet && node eval/run.js --set=arabic-holdout --quiet && node eval/check-results.js && node eval/version-check.js && node eval/robustness.js && node server/integrity.js --check && node eval/tamper/server-test.js && node eval/server-hardening-test.js",
+    "test": "node eval/run.js --quiet && node eval/run.js --holdout --quiet && node eval/run.js --set=arabic-dev --quiet && node eval/run.js --set=arabic-holdout --quiet && node eval/check-results.js && node eval/version-check.js && node eval/robustness.js && node server/integrity.js --check && node eval/tamper/server-test.js && node eval/server-hardening-test.js && node eval/docs-check.js",
     "test:files": "node eval/files-eval.js",
     "test:browser": "node eval/e2e-audit.js",
     "integrity": "node server/integrity.js",
