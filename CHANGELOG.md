@@ -50,6 +50,8 @@ Repository checks and two small changes to the inspection service. The extension
   version in `package.json`, runs `npm test`, zips `extension/` and attaches the zip to a GitHub
   Release. The release notes carry the fingerprint from `server/integrity.json` and the SHA-256
   of the zip, so an administrator can compare both with what the devices report.
+  The same workflow can be started by hand from the Actions tab on `main`; it then releases the
+  version in `package.json` and creates the tag itself.
 - Dependabot configuration, a pull-request checklist and an `.editorconfig`. A compiled Python
   file that had been committed by mistake was removed.
 
