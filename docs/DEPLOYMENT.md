@@ -8,7 +8,7 @@ not been run.
 ## 1. Run the inspection service
 
 On an internal VM with Node.js 18+, Tesseract 5 (`ara` and `eng` data), `poppler-utils` and
-`qpdf` (for PDF and Word inspection) and optionally ImageMagick:
+`qpdf` (for PDF and Word inspection) and ImageMagick (for images: without it classification stamps in screenshots are not read, and the service prints a warning at start):
 
 ```bash
 SADIN_HOST=0.0.0.0 \

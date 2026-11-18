@@ -153,13 +153,13 @@ below it caught 36 of 36.
 
 Screenshots are inspected by the on-prem service, never in the browser and never in a cloud.
 
-1. **Upscale.** Small UI text is upscaled 2x and converted to greyscale (ImageMagick, if
+1. **Upscale.** Small UI text is upscaled 2x and converted to greyscale (ImageMagick, when
    installed), which noticeably improves OCR on dashboards.
 2. **OCR.** Tesseract 5 with the Arabic and English models returns every word with its
    position.
 3. **Stamp pass.** Boxed, coloured stamps are skipped by normal page segmentation, so coloured
    ink regions are cropped and read separately, once with the mixed model and once with the
-   Arabic model.
+   Arabic model. This pass needs ImageMagick; without it stamps in images are not read.
 4. **Scan.** The recognised text goes through the same engine with `ocrTolerant` on, which adds
    the malformed-octet IP detector.
 5. **Mask.** The word boxes behind each finding are returned, and the extension paints over them
