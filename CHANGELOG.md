@@ -31,6 +31,10 @@ Repository checks and two small changes to the inspection service. The extension
 - GitHub Actions runs `npm test` on Node 18, 20 and 22 on every push and pull request.
 - `npm version <x.y.z>` runs the tests, copies the version into the manifest and the README
   badge, and regenerates `integrity.json` (`scripts/release.js`).
+- Pushing a tag such as `v0.7.1` runs a release workflow: it checks that the tag equals the
+  version in `package.json`, runs `npm test`, zips `extension/` and attaches the zip to a GitHub
+  Release. The release notes carry the fingerprint from `server/integrity.json` and the SHA-256
+  of the zip, so an administrator can compare both with what the devices report.
 - Dependabot configuration, a pull-request checklist and an `.editorconfig`. A compiled Python
   file that had been committed by mistake was removed.
 
