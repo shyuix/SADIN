@@ -2,7 +2,20 @@
 
 ## Unreleased
 
-Repository checks only; the extension and the inspection service are unchanged.
+Repository checks and two small changes to the inspection service. The extension is unchanged.
+
+- The inspection service prints a warning at start when ImageMagick (`convert`) is not found.
+  Without it the service skips upscaling and the stamp pass, so classification stamps in images
+  are not read; it used to do this silently. The README, the deployment guide and the detection
+  notes now describe ImageMagick as needed for images.
+- A failed request is answered with "internal error"; the error code or name goes to the service
+  log instead of to the caller (CodeQL finding). The version number is fully escaped before it
+  is used in a regular expression in `scripts/release.js` and `eval/version-check.js`.
+- CI has a second job that runs the document tests, the browser tests and the screenshot
+  benchmark with the held-out seed. On the CI machine (18 November 2026) the benchmark masked
+  70 of 72 values, left none readable and blocked 7 of 8 classified memos, close to the
+  17 November re-run. This seed had been used before, so it is a regression check and the
+  September figures stay the ones to quote.
 
 - `npm test` now fails when a text set scores below the published numbers
   (`eval/check-results.js`). Before, `eval/run.js` printed and recorded its results but a
