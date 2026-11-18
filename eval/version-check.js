@@ -20,7 +20,7 @@ const rows = [
   ["server/integrity.json has an entry", Object.keys(JSON.parse(read("server/integrity.json"))).includes(release) ? release : "missing", release],
   ["README release badge", first(readme, /badge\/release-v([\d.]+)-/, "release badge"), release],
   ["README release badge alt text", first(readme, /alt="Release v([\d.]+)"/, "release badge alt"), release],
-  ["CHANGELOG.md has an entry", new RegExp("^## " + release.replace(/\./g, "\\.") + "(\\s|$)", "m").test(read("CHANGELOG.md")) ? release : "missing", release],
+  ["CHANGELOG.md has an entry", new RegExp("^## " + release.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(\\s|$)", "m").test(read("CHANGELOG.md")) ? release : "missing", release], 
   ["README engine badge", first(readme, /badge\/engine-v([\d.]+)-/, "engine badge"), engine],
   ["README engine badge alt text", first(readme, /alt="Engine v([\d.]+)"/, "engine badge alt"), engine],
   ["integrity file list in background.js", JSON.stringify(JSON.parse(first(read("extension/src/background.js"), /const INTEGRITY_FILES = (\[[^\]]*\]);/, "INTEGRITY_FILES"))), JSON.stringify(FILES)]
