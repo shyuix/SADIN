@@ -324,6 +324,8 @@ node demo/serve.js             # local test page, port 8788
 # then load extension/ in Chrome: chrome://extensions > Developer mode > Load unpacked
 ```
 
+The screenshot benchmark (`eval/ocr-eval.js`) needs Node.js 20.9 or later, because the `sharp` package it uses (0.35.5 in `package-lock.json`) declares that as its minimum. Everything else in the repository, including the extension, the inspection service and `npm test`, runs on Node.js 18.
+
 The screenshot benchmark and the document builder draw their inputs with the local browser, fonts and LibreOffice, so their results can differ between machines (section 5e).
 
 Raw outputs: `eval/results-holdout-FIRST-RUN-v0.3.0.json`, `eval/results-arabic-holdout-BASELINE-v0.3.1.json`, `eval/results-arabic-holdout-FIRST-RUN-v0.4.0.json`, `eval/results-corpus.json`, `eval/results-ocr-HELDOUT-seed990011.json`.

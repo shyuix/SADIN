@@ -34,6 +34,53 @@ never reach the vendor.
 All inspection runs on the employee's device or on the organisation's own server. A middleware
 that shipped the data to another cloud would recreate the problem it exists to solve.
 
+<p align="center">
+  <img src="shots/02-sent-redacted.png" alt="A router configuration pasted into a chat: on the left the message as the employee sees it after SADIN, on the right what the AI vendor receives, with the key, the addresses and the account replaced by placeholders" width="100%">
+</p>
+<p align="center"><em>A router configuration on the local test page. The right-hand panel shows what the AI vendor receives: the key, the addresses and the account are placeholders.</em></p>
+
+## Try it
+
+SADIN is a Chrome extension, so trying it needs Chrome on a computer; it does not run on a phone.
+The picture above and the ones under [See it work](#see-it-work) show what it does without
+installing anything.
+
+1. Download `sadin-extension-<version>.zip` from the
+   [latest release](https://github.com/shyuix/SADIN/releases/latest) and unzip it.
+2. Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and choose the
+   unzipped folder. "SADIN - Protective Middleware for AI Tools" appears in the list.
+3. Start the local test page, which imitates an AI chat and sends nothing off the machine. It
+   needs Node.js 18 or later and a copy of this repository (**Code**, then **Download ZIP**, or
+   `git clone`). In the repository folder:
+
+   ```bash
+   node demo/serve.js
+   ```
+
+4. Open <http://localhost:8788>, type the line below and press Enter:
+
+   ```text
+   Why does this keep failing? mysql -h 10.9.3.3 -u root -pKh4lid!Root2026 inventory
+   ```
+
+   The message is not sent. It changes to
+   `Why does this keep failing? mysql -h [INTERNAL_IP_1] -u root -p[SECRET_1] inventory` and a
+   notice says "SADIN redacted 2 items before sending". Press Enter again: the right-hand panel,
+   "Received by the AI vendor", shows the redacted line and nothing else.
+5. Type `TOP SECRET minutes of the security committee` and press Enter. The notice says "SADIN
+   blocked this before sending", and nothing appears in the right-hand panel.
+
+| | With the extension alone | Needs the inspection service |
+|---|---|---|
+| Text you type or paste | Redacted or blocked in the browser | |
+| Text files you attach, such as a `.env` file | Redacted in the browser | |
+| Images and screenshots | | Yes. Without it: "Image could not be inspected (inspection service unreachable). Not sent." |
+| PDF and Word files | | Yes. Without it: "File could not be inspected (inspection service unreachable). Not sent." |
+
+The inspection service is `node server/server.js` with the tools listed under
+[Quick start](#quick-start). The extension is also set up for eight AI sites, but every test so
+far used the local test page; the live sites have not been tested.
+
 > **What changed since the SAIF submission (28 September 2026).** The submitted report and
 > poster describe v0.4.0. Three things were added afterwards and are in this repository:
 > PDF and Word inspection, sensitivity labels (both v0.6.0, 15 November), and tamper resistance
