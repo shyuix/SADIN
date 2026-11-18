@@ -16,6 +16,12 @@ Repository checks and two small changes to the inspection service. The extension
   70 of 72 values, left none readable and blocked 7 of 8 classified memos, close to the
   17 November re-run. This seed had been used before, so it is a regression check and the
   September figures stay the ones to quote.
+- `package-lock.json` is committed, so every install gets the same versions of the two
+  test-only packages (Playwright 1.65.1, sharp 0.35.5), and the second CI job installs with
+  `npm ci`. The screenshot benchmark depends on the browser build, so this keeps its numbers
+  comparable between runs. The extension and the inspection service still have no dependencies.
+- Dependabot opens one grouped pull request a week for npm and one for GitHub Actions, in
+  place of one per package.
 
 - `npm test` now fails when a text set scores below the published numbers
   (`eval/check-results.js`). Before, `eval/run.js` printed and recorded its results but a
