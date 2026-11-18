@@ -12,7 +12,7 @@ const file = f => path.join(ROOT, f);
 const version = JSON.parse(fs.readFileSync(file("package.json"), "utf8")).version;
 
 const changelog = fs.readFileSync(file("CHANGELOG.md"), "utf8");
-if (!new RegExp("^## " + version.replace(/\./g, "\\.") + "\\b", "m").test(changelog)) {
+if (!new RegExp("^## " + version.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "m").test(changelog)) {
   console.error(`CHANGELOG.md has no "## ${version}" entry. Write it first, then run npm version again.`);
   process.exit(1);
 }
