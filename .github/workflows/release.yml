@@ -1,0 +1,57 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Tag matches the version in package.json
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+      - name: Frozen test sets are unchanged
+        run: sha256sum -c eval/FROZEN-arabic.sha256 eval/FROZEN-english.sha256
+      - name: Text sets, robustness, integrity, tamper and hardening tests
+        run: npm test
+      - name: Package the extension
+        run: |
+          cd extension
+          zip -r -X "../sadin-extension-$VERSION.zip" .
+      - name: Write the release notes
+        run: |
+          fingerprint=$(node -p "require('./server/integrity.json')[process.env.VERSION]")
+          {
+            echo "SADIN $VERSION. Changes are listed in CHANGELOG.md."
+            echo
+            echo "Extension fingerprint (server/integrity.json), as reported in each heartbeat:"
+            echo
+            echo '```'
+            echo "$fingerprint"
+            echo '```'
+            echo
+            echo "SHA-256 of the attached package:"
+            echo
+            echo '```'
+            sha256sum "sadin-extension-$VERSION.zip"
+            echo '```'
+          } > release-notes.md
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "sadin-extension-$VERSION.zip" --title "SADIN $VERSION" --notes-file release-notes.md --verify-tag
